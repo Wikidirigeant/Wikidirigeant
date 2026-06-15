@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide du Président Bénévole – 100 premiers jours | FFT</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* HOME HERO overrides */
+    .hero-home {
+      background: var(--navy);
+      color: white;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      min-height: 380px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-home::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent, transparent 28px,
+        rgba(200,90,42,0.06) 28px, rgba(200,90,42,0.06) 29px
+      );
+    }
+    .hero-content {
+      padding: 56px 48px 52px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-home h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      margin-bottom: 18px;
+    }
+    .hero-home h1 span { color: var(--clay); }
+    .hero-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 500px;
+      line-height: 1.6;
+    }
+    .hero-sidebar {
+      background: var(--clay);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-sidebar h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 14px;
+      border: none;
+      padding: 0;
+    }
+    .disc-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 0;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      color: white;
+      font-weight: 400;
+      font-size: 0.88rem;
+    }
+    .disc-icon { font-size: 1.2rem; }
+    .hero-meta {
+      padding: 14px 48px;
+      background: rgba(255,255,255,0.04);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.05em;
+      position: relative;
+      z-index: 1;
+      grid-column: 1 / -1;
+    }
+    .hero-meta strong { color: rgba(255,255,255,0.7); }
+
+    /* MODULE GRID */
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .module-link {
+      background: white;
+      border-radius: 8px;
+      padding: 20px 18px;
+      text-decoration: none;
+      color: var(--navy);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      border-top: 3px solid var(--clay);
+      transition: box-shadow 0.18s, transform 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .module-link.c-grass { border-top-color: var(--grass); }
+    .module-link.c-navy  { border-top-color: var(--navy); }
+    .module-link.c-gold  { border-top-color: #c89400; }
+    .module-link.c-teal  { border-top-color: #0e7a7a; }
+    .module-link:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.13); transform: translateY(-3px); }
+    .module-link .ml-icon { font-size: 1.8rem; margin-bottom: 9px; }
+    .module-link h3 {
+      font-family: 'Lora', serif;
+      font-size: 1.02rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      border: none;
+      padding: 0;
+      color: var(--navy);
+    }
+    .module-link p { font-size: 0.83rem; color: var(--muted); line-height: 1.5; flex: 1; margin: 0; }
+    .module-link .ml-arr {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--clay);
+      letter-spacing: 0.04em;
+    }
+    .module-link.c-grass .ml-arr { color: var(--grass); }
+
+    @media (max-width: 800px) {
+      .hero-home { grid-template-columns: 1fr; }
+      .hero-sidebar { display: none; }
+      .hero-content { padding: 38px 22px; }
+      .hero-meta { padding: 13px 22px; }
+      .module-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .module-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-ball">🎾</div>
+      <div class="nav-logo-text">Guide<br>Président</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Accueil</a></li>
+      <li><a href="generalites.html">Généralités</a></li>
+      <li><a href="rh.html">RH</a></li>
+      <li><a href="finances.html">Finances</a></li>
+      <li><a href="adoc.html">ADOC</a></li>
+      <li><a href="pratiques.html">Autres pratiques</a></li>
+      <li><a href="pensez-y.html">Pensez-y !</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header>
+  <div class="hero-home">
+    <div class="hero-content">
+      <div class="badge-row">
+        <span class="badge">FFT</span>
+        <span class="badge badge-outline">Guide du dirigeant</span>
+        <span class="badge badge-outline">2025–2026</span>
+      </div>
+      <h1>Bienvenue,<br>nouveau<br><span>Président !</span></h1>
+      <p class="hero-sub">Ce guide vous accompagne dans vos <strong style="color:rgba(255,255,255,0.85);">100 premiers jours</strong> à la tête de votre club affilié FFT. Étape par étape, avec les bons outils et les bons interlocuteurs. Les anciens présidents pourront également y trouver des informations utiles.</p>
+    </div>
+    <div class="hero-sidebar">
+      <h3>Disciplines FFT</h3>
+      <div class="disc-item"><span class="disc-icon">🎾</span> Tennis</div>
+      <div class="disc-item"><span class="disc-icon">🏓</span> Padel</div>
+      <div class="disc-item"><span class="disc-icon">🏖️</span> Beach Tennis</div>
+      <div class="disc-item"><span class="disc-icon">🔵</span> Pickleball</div>
+    </div>
+    <div class="hero-meta">
+      <span><strong>Public visé</strong> &nbsp;Nouveaux présidents de clubs affiliés FFT</span>
+      <span><strong>7 chapitres</strong> &nbsp;+ 40 ressources & liens</span>
+      <span><strong>Mise à jour</strong> &nbsp;Saison sportive 2025–2026</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<section>
+  <div class="sec-header">
+    <div class="sec-num">—</div>
+    <div class="sec-title">
+      <h2>Par où commencer ?</h2>
+      <p>Félicitations, ou plutôt… courage.</p>
+    </div>
+  </div>
+
+  <p>Prendre la présidence d'un club affilié FFT, c'est endosser une double responsabilité : celle d'un dirigeant associatif au sens du droit français, et celle d'un représentant d'une structure intégrée dans un écosystème fédéral précis, avec ses règles, ses outils, ses calendriers et ses interlocuteurs spécifiques.</p>
+
+  <p>Ce guide couvre les deux dimensions. Il s'adresse aux clubs pratiquant une ou plusieurs des disciplines gérées par la FFT — tennis, padel, beach tennis, pickleball — et intègre les spécificités de chaque discipline là où elles diffèrent.</p>
+
+  <div class="urgent-band">
+    <div class="urgent-icon">⚡</div>
+    <div class="urgent-body">
+      <h4>À faire dans les 7 premiers jours</h4>
+      <div class="urgent-tags">
+        <span class="urgent-tag">Déclaration en préfecture</span>
+        <span class="urgent-tag">Récupérer les accès ADOC</span>
+        <span class="urgent-tag">Point financier trésorier</span>
+        <span class="urgent-tag">Déclaration à la Ligue IDF</span>
+        <span class="urgent-tag">Contact comité départemental</span>
+      </div>
+    </div>
+  </div>
+
+  <p>Commencez par écouter et cartographier. Ensuite seulement, agissez.</p>
+</section>
+
+<section>
+  <div class="sec-header">
+    <div class="sec-num">📚</div>
+    <div class="sec-title">
+      <h2>Les 6 chapitres du guide</h2>
+      <p>Chaque module répond à une dimension clé de votre mission.</p>
+    </div>
+  </div>
+
+  <div class="module-grid">
+    <a href="generalites.html" class="module-link">
+      <div class="ml-icon">📋</div>
+      <h3>Généralités</h3>
+      <p>Architecture FFT, rôle du club, statuts, affiliation, registres obligatoires et ressources essentielles pour démarrer.</p>
+      <div class="ml-arr">Consulter →</div>
+    </a>
+    <a href="rh.html" class="module-link c-clay">
+      <div class="ml-icon">👥</div>
+      <h3>Ressources Humaines</h3>
+      <p>Bureau obligatoire et conseillé, fiches de postes, obligations employeur, CCNS, COSMOS et AFDAS.</p>
+      <div class="ml-arr">Consulter →</div>
+    </a>
+    <a href="finances.html" class="module-link c-gold">
+      <div class="ml-icon">💶</div>
+      <h3>Finances & Sponsoring</h3>
+      <p>Bilan associatif, fiches de paie, aides FFT/ANS, Koteez et guide pratique pour trouver des sponsors.</p>
+      <div class="ml-arr" style="color:#c89400;">Consulter →</div>
+    </a>
+    <a href="adoc.html" class="module-link c-navy">
+      <div class="ml-icon">💻</div>
+      <h3>ADOC</h3>
+      <p>Le couteau suisse du dirigeant FFT : licences, terrains, comptabilité, compétitions — tutoriels et accès direct.</p>
+      <div class="ml-arr" style="color:var(--navy);">Consulter →</div>
+    </a>
+    <a href="pratiques.html" class="module-link c-grass">
+      <div class="ml-icon">🏓</div>
+      <h3>Autres pratiques</h3>
+      <p>Tennis scolaire, Galaxie Tennis, padel, pickleball, beach tennis — développer l'offre de votre club.</p>
+      <div class="ml-arr">Consulter →</div>
+    </a>
+    <a href="pensez-y.html" class="module-link c-teal">
+      <div class="ml-icon">💡</div>
+      <h3>Pensez-y !</h3>
+      <p>Toutes les bonnes pratiques et idées glanées dans les ressources FFT pour optimiser la gestion de votre club.</p>
+      <div class="ml-arr" style="color:#0e7a7a;">Consulter →</div>
+    </a>
+  </div>
+</section>
+
+<section>
+  <div class="sec-header">
+    <div class="sec-num">📅</div>
+    <div class="sec-title">
+      <h2>Le plan des 100 jours en un coup d'œil</h2>
+      <p>Trois phases pour prendre vos marques sans vous précipiter.</p>
+    </div>
+  </div>
+
+  <div class="phases-row">
+    <div class="phase-card">
+      <div class="phase-n">J1–30</div>
+      <div class="phase-label">🔍 Découvrir</div>
+      <ul class="phase-items">
+        <li>Rencontrer chaque membre du bureau</li>
+        <li>Audit des documents officiels</li>
+        <li>Prise en main d'ADOC et Ten'Up</li>
+        <li>Inventaire financier avec le trésorier</li>
+        <li>Contact comité départemental</li>
+      </ul>
+    </div>
+    <div class="phase-card">
+      <div class="phase-n">J31–60</div>
+      <div class="phase-label">🔧 Structurer</div>
+      <ul class="phase-items">
+        <li>Définir les priorités de mandat</li>
+        <li>Réviser les statuts si nécessaire</li>
+        <li>Préparer le budget prévisionnel</li>
+        <li>Rencontrer les partenaires locaux</li>
+        <li>Rencontre mairie (élu aux sports)</li>
+      </ul>
+    </div>
+    <div class="phase-card">
+      <div class="phase-n">J61–100</div>
+      <div class="phase-label">🚀 Lancer</div>
+      <ul class="phase-items">
+        <li>Lancer 1 projet phare</li>
+        <li>Démarcher les premiers sponsors</li>
+        <li>Activer Galaxie Tennis / scolaire</li>
+        <li>Planifier l'assemblée générale</li>
+        <li>Bilan intermédiaire avec le bureau</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p><strong>Guide du président de club affilié FFT</strong> &nbsp;·&nbsp; Tennis · Padel · Beach Tennis · Pickleball &nbsp;·&nbsp; Saison 2025–2026</p>
+  <p style="margin-top:8px; font-size:0.75rem;">Document à usage pédagogique — à vérifier auprès de votre Ligue régionale. Sources : <a href="https://guidedudirigeant.fft.fr" target="_blank">guidedudirigeant.fft.fr</a> | <a href="https://adoc.app.fft.fr/adoc/" target="_blank">ADOC</a> | <a href="https://tenup.fft.fr" target="_blank">Ten'Up</a></p>
+</footer>
+
+</body>
+</html>

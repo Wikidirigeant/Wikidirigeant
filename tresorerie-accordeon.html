@@ -1,0 +1,183 @@
+<!-- ── ACCORDÉON TRÉSORERIE ── 
+     À coller dans ton fichier HTML, dans la section concernée.
+     Nécessite le CSS existant du guide + le bloc <style> ci-dessous.
+-->
+
+<style>
+/* ── ACCORDÉON ── */
+.accordion { margin: 20px 0; display: flex; flex-direction: column; gap: 6px; }
+
+.acc-item {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  overflow: hidden;
+  border-left: 3px solid transparent;
+}
+.acc-item:nth-child(1) { border-left-color: var(--clay); }
+.acc-item:nth-child(2) { border-left-color: #b03a1a; }
+.acc-item:nth-child(3) { border-left-color: var(--navy); }
+.acc-item:nth-child(4) { border-left-color: #14396b; }
+.acc-item:nth-child(5) { border-left-color: var(--grass); }
+
+.acc-trigger {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.93rem;
+  font-weight: 500;
+  color: var(--navy);
+  transition: background 0.15s;
+}
+.acc-trigger:hover { background: var(--paper); }
+
+.acc-icon { font-size: 1.15rem; flex-shrink: 0; }
+.acc-label { flex: 1; }
+.acc-arrow {
+  font-size: 0.75rem;
+  color: var(--muted);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.acc-item.open .acc-arrow { transform: rotate(180deg); }
+
+.acc-body {
+  display: none;
+  padding: 0 16px 16px 42px;
+}
+.acc-item.open .acc-body { display: block; }
+
+.acc-body ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+.acc-body ul li {
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.55;
+  padding: 8px 12px;
+  background: var(--paper);
+  border-radius: 5px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.acc-body ul li::before {
+  content: '?';
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  color: var(--clay);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+</style>
+
+<!-- TITRE DE SECTION (à adapter selon ta structure) -->
+<h3>Questions à se poser en prenant en main la trésorerie</h3>
+
+<div class="accordion">
+
+  <!-- 1 -->
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      <span class="acc-icon">📸</span>
+      <span class="acc-label">Prendre une photo de la situation existante</span>
+      <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body">
+      <ul>
+        <li>Quels sont les soldes de chaque compte bancaire à ce jour ?</li>
+        <li>Y a-t-il des chèques émis non encaissés ou des virements en attente ?</li>
+        <li>La comptabilité est-elle à jour, ou y a-t-il des mois de retard ?</li>
+        <li>Qui avait accès aux comptes avant moi — les droits ont-ils été mis à jour ?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      <span class="acc-icon">💸</span>
+      <span class="acc-label">Dettes et engagements cachés</span>
+      <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body">
+      <ul>
+        <li>Y a-t-il des factures reçues non payées (fournisseurs, prestataires) ?</li>
+        <li>Des emprunts ou facilités de caisse en cours ?</li>
+        <li>Des cautions ou dépôts de garantie versés ou reçus ?</li>
+        <li>Le club est-il à jour de ses cotisations FFT et ligues ?</li>
+        <li>Y a-t-il des litiges en cours (risque de remboursement ou d'amende) ?</li>
+        <li>Des subventions reçues avec obligation de résultat ou de reversement ?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      <span class="acc-icon">📅</span>
+      <span class="acc-label">Flux récurrents à cartographier</span>
+      <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body">
+      <ul>
+        <li>Quelles sont les charges fixes mensuelles (assurances, loyers, abonnements, salaires) ?</li>
+        <li>Quel est le calendrier des encaissements — quand tombent les cotisations membres ?</li>
+        <li>Y a-t-il des saisonnalités à anticiper (grosse dépense en début de saison, pic de trésorerie après les inscriptions) ?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      <span class="acc-icon">📂</span>
+      <span class="acc-label">Outils et organisation</span>
+      <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body">
+      <ul>
+        <li>Sur quel logiciel ou outil la comptabilité est-elle tenue (Excel, logiciel associatif, expert-comptable) ?</li>
+        <li>Y a-t-il un budget prévisionnel pour l'exercice en cours ?</li>
+        <li>Les justificatifs (factures, reçus) sont-ils archivés et retrouvables ?</li>
+        <li>Y a-t-il un commissaire aux comptes ou un vérificateur désigné par l'AG ?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      <span class="acc-icon">🤝</span>
+      <span class="acc-label">Relations externes</span>
+      <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body">
+      <ul>
+        <li>Qui sont les signataires bancaires autorisés, et faut-il les mettre à jour ?</li>
+        <li>Y a-t-il un expert-comptable — quel est son périmètre exact ?</li>
+        <li>Quelles sont les subventions attendues (mairie, département, CNDS…) et à quelles conditions ?</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /accordion -->
+
+<script>
+function toggleAcc(trigger) {
+  const item = trigger.closest('.acc-item');
+  item.classList.toggle('open');
+}
+</script>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendrier de gouvernance – Guide du Président FFT</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+
+    /* ── CALENDAR GRID ── */
+    .cal-grid {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 0;
+      margin: 28px 0;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    /* Month label column */
+    .cal-month {
+      background: var(--navy);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      gap: 3px;
+    }
+    .cal-month:last-of-type { border-bottom: none; }
+
+    .cal-month-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.15rem;
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+    .cal-month-num {
+      font-size: 0.68rem;
+      opacity: 0.45;
+      letter-spacing: 0.05em;
+    }
+
+    /* Season marker */
+    .cal-month.season-start {
+      background: var(--clay);
+    }
+    .cal-month.mid { background: #12305a; }
+    .cal-month.summer { background: var(--grass); }
+
+    /* Events column */
+    .cal-events {
+      background: white;
+      border-bottom: 1px solid var(--rule);
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      justify-content: center;
+    }
+    .cal-events:last-of-type { border-bottom: none; }
+    .cal-events.alt { background: #faf8f5; }
+
+    /* Event chips */
+    .events-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .ev {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 3px;
+      line-height: 1.2;
+    }
+
+    /* Event types */
+    .ev-bureau {
+      background: #eef2fa;
+      color: #1a3a6e;
+      border-left: 3px solid #1a3a6e;
+    }
+    .ev-ca {
+      background: #fdeee7;
+      color: var(--clay);
+      border-left: 3px solid var(--clay);
+    }
+    .ev-ag {
+      background: var(--navy);
+      color: white;
+    }
+    .ev-fft {
+      background: #e8f5ee;
+      color: var(--grass);
+      border-left: 3px solid var(--grass);
+    }
+    .ev-admin {
+      background: #fdf7dc;
+      color: #7a6000;
+      border-left: 3px solid #c89400;
+    }
+    .ev-sport {
+      background: #f0edf8;
+      color: #4a2d7a;
+      border-left: 3px solid #7b52c8;
+    }
+    .ev-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── LEGEND ── */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 32px;
+    }
+    .leg-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .leg-dot {
+      width: 12px; height: 12px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── DEFINITION CARDS ── */
+    .def-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .def-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .def-head {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: white;
+    }
+    .def-head.bureau-h { background: #1a3a6e; }
+    .def-head.ca-h { background: var(--clay); }
+    .def-head.ag-h { background: var(--navy); }
+    .def-head.fft-h { background: var(--grass); }
+
+    .def-head .dh-icon { font-size: 1.4rem; }
+    .def-head h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.06em;
+      border: none;
+      padding: 0; margin: 0;
+      color: white;
+      line-height: 1;
+    }
+    .def-head .dh-freq {
+      margin-left: auto;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.18);
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      white-space: nowrap;
+    }
+
+    .def-body {
+      padding: 14px 16px;
+    }
+    .def-body p { font-size: 0.87rem; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+    .def-body ul {
+      list-style: none;
+      font-size: 0.84rem;
+      color: var(--navy);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .def-body ul li::before {
+      content: '→ ';
+      color: var(--clay);
+      font-weight: 500;
+    }
+
+    /* ── PRINT BUTTON ── */
+    .action-bar {
+      display: flex;
+      gap: 10px;
+      margin: 24px 0 8px;
+      flex-wrap: wrap;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 4px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: opacity 0.15s;
+    }
+    .btn-action:hover { opacity: 0.85; }
+    .btn-primary-a { background: var(--navy); color: white; }
+    .btn-outline-a { background: transparent; border: 1px solid var(--clay); color: var(--clay); }
+
+    /* ── SEASON BAND ── */
+    .season-band {
+      display: flex;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 20px 0;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .sb-item {
+      flex: 1;
+      padding: 8px 6px;
+      text-align: center;
+      color: white;
+    }
+    .sb-item.off { background: var(--clay); }
+    .sb-item.on  { background: var(--navy); }
+    .sb-item.sum { background: var(--grass); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .cal-grid { grid-template-columns: 62px 1fr; }
+      .cal-month-name { font-size: 0.9rem; }
+      .ev { font-size: 0.74rem; padding: 3px 8px; }
+      .def-grid { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      .site-nav, .action-bar { display: none; }
+      .cal-grid { box-shadow: none; border: 1px solid #ccc; }
+      body { font-size: 13px; background: white; }
+      .page-hero { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-ball">🎾</div>
+      <div class="nav-logo-text">Guide<br>Président</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="generalites.html">Généralités</a></li>
+      <li><a href="rh.html">RH</a></li>
+      <li><a href="finances.html">Finances</a></li>
+      <li><a href="adoc.html">ADOC</a></li>
+      <li><a href="pratiques.html">Autres pratiques</a></li>
+      <li><a href="pensez-y.html">Pensez-y !</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="badge-row">
+      <span class="badge">Outil pratique</span>
+      <span class="badge badge-outline">Gouvernance</span>
+    </div>
+    <h1>Calendrier de <span>gouvernance</span></h1>
+    <p class="sub">Qu'est-ce que le Bureau, le CA, l'AG ? Comment s'articulent-ils au fil de l'année ? Un exemple concret calé sur la saison sportive FFT.</p>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- DÉFINITIONS -->
+<section>
+  <div class="sec-header">
+    <div class="sec-num">01</div>
+    <div class="sec-title">
+      <h2>Les instances de gouvernance</h2>
+      <p>Chaque organe a un rôle précis — et ils ne se remplacent pas.</p>
+    </div>
+  </div>
+
+  <div class="def-grid">
+
+    <div class="def-card">
+      <div class="def-head bureau-h">
+        <span class="dh-icon">🧭</span>
+        <h3>Le Bureau</h3>
+        <span class="dh-freq">Mensuel</span>
+      </div>
+      <div class="def-body">
+        <p>L'équipe opérationnelle restreinte qui assure la gestion courante du club. Composé a minima du président, trésorier et secrétaire.</p>
+        <ul>
+          <li>Décisions rapides du quotidien</li>
+          <li>Suivi des finances en cours</li>
+          <li>Préparation des CA</li>
+          <li>Coordination entre les responsables</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="def-card">
+      <div class="def-head ca-h">
+        <span class="dh-icon">🏛️</span>
+        <h3>Conseil d'Administration (CA)</h3>
+        <span class="dh-freq">Trimestriel</span>
+      </div>
+      <div class="def-body">
+        <p>Instance décisionnelle élargie aux administrateurs élus. Valide les orientations importantes et contrôle l'action du bureau.</p>
+        <ul>
+          <li>Validation du budget et des grands projets</li>
+          <li>Bilan sportif et associatif</li>
+          <li>Décisions de principe (tarifs, recrutements…)</li>
+          <li>Convocation de l'AG si nécessaire</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="def-card">
+      <div class="def-head ag-h">
+        <span class="dh-icon">🗳️</span>
+        <h3>Assemblée Générale (AG)</h3>
+        <span class="dh-freq">1 × / an</span>
+      </div>
+      <div class="def-body">
+        <p>L'instance souveraine de l'association. Tous les adhérents y ont voix. Elle valide les comptes et élit les dirigeants.</p>
+        <ul>
+          <li>Approbation du bilan moral et financier</li>
+          <li>Élection du bureau et du CA</li>
+          <li>Fixation des cotisations</li>
+          <li>Modification des statuts si besoin</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="def-card">
+      <div class="def-head fft-h">
+        <span class="dh-icon">🎾</span>
+        <h3>Échéances FFT</h3>
+        <span class="dh-freq">Annuel</span>
+      </div>
+      <div class="def-body">
+        <p>Le calendrier fédéral impose des dates fixes à respecter pour l'affiliation, les licences et les compétitions.</p>
+        <ul>
+          <li>Renouvellement d'affiliation (mars–août)</li>
+          <li>Ouverture des licences (mai)</li>
+          <li>Interclubs (oct–juin)</li>
+          <li>Dépôt ANS (mars–avril)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout callout-danger">
+    <span class="callout-label">⚠️ Règle d'or</span>
+    Le Bureau <em>prépare</em>, le CA <em>décide</em> sur les sujets importants, l'AG <em>valide</em> et <em>élit</em>. Confondre ces rôles — ou prendre en Bureau des décisions qui appartiennent au CA — peut entraîner des conflits internes et des irrégularités statutaires.
+  </div>
+</section>
+
+<!-- SAISON -->
+<section>
+  <div class="sec-header">
+    <div class="sec-num">02</div>
+    <div class="sec-title">
+      <h2>La saison sportive FFT</h2>
+      <p>Tout se cale sur septembre–août, pas sur l'année civile.</p>
+    </div>
+  </div>
+
+  <p>La saison sportive FFT va de <strong>septembre à août</strong> de l'année suivante. Votre gouvernance doit s'adapter à ce rythme — en particulier l'AG annuelle, qui se tient idéalement avant ou en tout début de saison pour valider les orientations de l'année.</p>
+
+  <div class="season-band">
+    <div class="sb-item off" style="flex:3;">🍂 Sept → Nov — Lancement de saison</div>
+    <div class="sb-item on"  style="flex:4;">❄️ Déc → Mars — Cœur de saison</div>
+    <div class="sb-item on"  style="flex:3;">🌸 Avr → Juin — Sprint final</div>
+    <div class="sb-item sum" style="flex:2;">☀️ Juil–Août — Inter-saison</div>
+  </div>
+</section>
+
+<!-- CALENDRIER -->
+<section>
+  <div class="sec-header">
+    <div class="sec-num">03</div>
+    <div class="sec-title">
+      <h2>Exemple de calendrier annuel</h2>
+      <p>À adapter selon vos statuts, votre taille et votre organisation locale.</p>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#1a3a6e;"></div> Réunion de bureau</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--clay);"></div> Conseil d'administration</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--navy);"></div> Assemblée générale</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--grass);"></div> Échéance FFT</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#c89400;"></div> Administratif / légal</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#7b52c8;"></div> Sportif / animation</div>
+  </div>
+
+  <div class="action-bar">
+    <button class="btn-action btn-primary-a" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button>
+    <a href="generalites.html" class="btn-action btn-outline-a">← Retour Généralités</a>
+  </div>
+
+  <div class="cal-grid">
+
+    <!-- SEPTEMBRE -->
+    <div class="cal-month season-start">
+      <div class="cal-month-name">SEPT</div>
+      <div class="cal-month-num">Mois 1</div>
+    </div>
+    <div class="cal-events">
+      <div class="events-row">
+        <span class="ev ev-bureau">🧭 Réunion de bureau — lancement de saison</span>
+        <span class="ev ev-fft">🎾 Ouverture des licences saison N+1</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-sport">🏆 Début des interclubs par équipes</span>
+        <span class="ev ev-admin">📋 Mise à jour du règlement intérieur si besoin</span>
+      </div>
+      <span class="ev-note">Point de départ : rencontrez votre comité départemental dès le début du mois.</span>
+    </div>
+
+    <!-- OCTOBRE -->
+    <div class="cal-month mid">
+      <div class="cal-month-name">OCT</div>
+      <div class="cal-month-num">Mois 2</div>
+    </div>
+    <div class="cal-events alt">
+      <div class="events-row">
+        <span class="ev ev-bureau">🧭 Réunion de bureau</span>
+        <span class="ev ev-ca">🏛️ CA — bilan rentrée, point financier</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-fft">🎾 Suivi des licences validées</span>
+        <span class="ev ev-sport">🎾 Galop d'essai Galaxie Tennis</span>
+      </div>
+    </div>
+
+    <!-- NOVEMBRE -->
+    <div class="cal-month mid">
+      <div class="cal-month-name">NOV</div>
+      <div class="cal-month-num">Mois 3</div>
+    </div>
+    <div class="cal-events">
+      <div class="events-row">
+        <span class="ev ev-bureau">🧭 Réunion de bureau</span>
+        <span class="ev ev-admin">📋 Vérification honorabilité encadrants</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-sport">🏆 Interclubs en cours</span>
+      </div>
+      <span class="ev-note">Bon moment pour dresser un premier bilan des inscriptions et ajuster si besoin.</span>
+    </div>
+
+    <!-- DÉCEMBRE -->
+    <div class="cal-month mid">
+      <div class="cal-month-name">DÉC</div>
+      <div class="cal-month-num">Mois 4</div>
+    </div>
+    <div class="cal-events alt">
+      <div class="events-row">
+        <span class="ev ev-bureau">🧭 Réunion de bureau</span>
+        <span class="ev ev-ca">🏛️ CA — budget prévisionnel N+1</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-sport">🎉 Animation fin d'année / repas bénévoles</span>
+      </div>
+      <span class="ev-note">C'est le moment de préparer le budget prévisionnel avec le trésorier pour l'AG de juin.</span>
+    </div>
+
+    <!-- JANVIER -->
+    <div class="cal-month mid">
+      <div class="cal-month-name">JANV</div>
+      <div class="cal-month-num">Mois 5</div>
+    </div>
+    <div class="cal-events">
+      <div class="events-row">
+        <span class="ev ev-bureau">🧭 Réunion de bureau</span>
+        <span class="ev ev-admin">📋 Déclaration préfecture si changements</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-sport">🏆 Interclubs hivernaux</span>
+        <span class="ev ev-sport">🎾 Tournoi interne hiver (optionnel)</span>
+      </div>
+    </div>
+
+    <!-- FÉVRIER -->
+    <div class="cal-month mid">
+      <div class="cal-month-name">FÉV</div>
+      <div class="cal-month-num">Mois 6</div>
+    </div>
+    <div class="cal-events alt">
+      <div class="events-row">
+        <span class="ev ev-bureau">🧭 Réunion de bureau</span>
+        <span class="ev ev-ca">🏛️ CA — point mi-saison, projets</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-fft">🎾 Préparation dossier ANS</span>
+      </div>
+      <span class="ev-note">Le dossier ANS doit être déposé en mars–avril via Le Compte Asso — préparez-le maintenant.</span>
+    </div>
+
+    <!-- MARS -->
+    <div class="cal-month mid">
+      <div class="cal-month-name">MARS</div>
+      <div class="cal-month-num">Mois 7</div>
+    </div>
+    <div class="cal-events">
+      <div class="events-row">
+        <span class="ev ev-bureau">🧭 Réunion de bureau</span>
+        <span class="ev ev-fft">🎾 Dépôt dossier ANS (lecompteasso.fr)</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-fft">🎾 Renouvellement affiliation FFT (mars–août)</span>
+        <span class="ev ev-sport">🏆 Fête du Tennis (si organisée)</span>
+      </div>
+    </div>
+
+    <!-- AVRIL -->
+    <div class="cal-month mid">
+      <div class="cal-month-name">AVR</div>
+      <div class="cal-month-num">Mois 8</div>
+    </div>
+    <div class="cal-events alt">
+      <div class="events-row">
+        <span class="ev ev-bureau">🧭 Réunion de bureau</span>
+        <span class="ev ev-ca">🏛️ CA — bilan sportif, préparation AG</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-admin">📋 Arrêté des comptes annuels avec trésorier</span>
+        <span class="ev ev-fft">🎾 Fin des interclubs hivernaux</span>
+      </div>
+      <span class="ev-note">Commencez à préparer le rapport moral et le rapport financier pour l'AG.</span>
+    </div>
+
+    <!-- MAI -->
+    <div class="cal-month mid">
+      <div class="cal-month-name">MAI</div>
+      <div class="cal-month-num">Mois 9</div>
+    </div>
+    <div class="cal-events">
+      <div class="events-row">
+        <span class="ev ev-bureau">🧭 Réunion de bureau</span>
+        <span class="ev ev-admin">📋 Convocation AG (envoi 15 j à l'avance minimum)</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-fft">🎾 Ouverture licences saison N+1 (19 mai)</span>
+        <span class="ev ev-sport">🎾 Tournois de printemps</span>
+      </div>
+    </div>
+
+    <!-- JUIN -->
+    <div class="cal-month mid">
+      <div class="cal-month-name">JUIN</div>
+      <div class="cal-month-num">Mois 10</div>
+    </div>
+    <div class="cal-events alt">
+      <div class="events-row">
+        <span class="ev ev-ag">🗳️ ASSEMBLÉE GÉNÉRALE ORDINAIRE</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-admin">📋 Approbation bilan moral + financier</span>
+        <span class="ev ev-admin">📋 Vote du budget prévisionnel N+1</span>
+        <span class="ev ev-admin">📋 Élection du bureau et du CA</span>
+      </div>
+      <span class="ev-note">Si élections prévues : envoyez l'ordre du jour au moins 15 jours à l'avance. Vérifiez les statuts sur le quorum requis.</span>
+    </div>
+
+    <!-- JUILLET -->
+    <div class="cal-month summer">
+      <div class="cal-month-name">JUIL</div>
+      <div class="cal-month-num">Mois 11</div>
+    </div>
+    <div class="cal-events">
+      <div class="events-row">
+        <span class="ev ev-bureau">🧭 Bureau de rentrée (optionnel)</span>
+        <span class="ev ev-admin">📋 Déclaration préfecture si nouvelles élections</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-sport">🏖️ Stages été / Beach Tennis</span>
+        <span class="ev ev-fft">🎾 Suivi des licences N+1</span>
+      </div>
+      <span class="ev-note">Inter-saison : moment pour préparer la rentrée et traiter les dossiers de subvention collectivités.</span>
+    </div>
+
+    <!-- AOÛT -->
+    <div class="cal-month summer">
+      <div class="cal-month-name">AOÛT</div>
+      <div class="cal-month-num">Mois 12</div>
+    </div>
+    <div class="cal-events alt">
+      <div class="events-row">
+        <span class="ev ev-fft">🎾 Clôture renouvellement affiliation FFT</span>
+        <span class="ev ev-admin">📋 Préparation programme de rentrée</span>
+      </div>
+      <div class="events-row">
+        <span class="ev ev-sport">🎾 Open d'été / tournoi de fin de saison</span>
+        <span class="ev ev-bureau">🧭 Réunion de bureau pré-rentrée</span>
+      </div>
+      <span class="ev-note">Tout doit être prêt pour le 1er septembre : planning des cours, créneaux ADOC configurés, licences disponibles.</span>
+    </div>
+
+  </div><!-- end cal-grid -->
+
+</section>
+
+<!-- CONSEILS PRATIQUES -->
+<section>
+  <div class="sec-header">
+    <div class="sec-num">04</div>
+    <div class="sec-title">
+      <h2>Conseils pratiques</h2>
+      <p>Ce que les présidents expérimentés font systématiquement.</p>
+    </div>
+  </div>
+
+  <ul class="checklist">
+    <li><strong>Fixez toutes les dates en début de saison (septembre)</strong> — bloquez les réunions de bureau et de CA à l'avance dans les agendas de chacun. Une date non fixée ne se tient jamais.</li>
+    <li><strong>L'ordre du jour avant chaque réunion</strong> — envoyez-le au moins 5 jours à l'avance, par email via ADOC. Cela oblige à préparer et raccourcit les réunions.</li>
+    <li><strong>Le compte-rendu systématique</strong> — rédigé par le secrétaire dans les 48h, envoyé à tous les membres du CA. Il trace les décisions et évite les "c'est pas ce qu'on avait dit".</li>
+    <li><strong>Respectez les quorums</strong> — vérifiez dans vos statuts le nombre minimum de membres présents pour que les décisions soient valables, notamment en AG (votes de budget, modification de statuts).</li>
+    <li><strong>Convoquez l'AG par écrit</strong> — par email ou courrier, avec l'ordre du jour complet, au moins 15 jours avant (vérifiez vos statuts, certains imposent 21 ou 30 jours).</li>
+    <li><strong>Prévoyez une AG extraordinaire si nécessaire</strong> — modification de statuts, dissolution, fusion : certaines décisions ne peuvent être prises qu'en AGE, distincte de l'AGO.</li>
+  </ul>
+
+
+
+</section>
+
+</div><!-- end container -->
+
+<footer>
+  <p><strong>Calendrier de gouvernance — club affilié FFT</strong> &nbsp;·&nbsp; Exemple type saison 2025–2026</p>
+  <p style="margin-top:8px; font-size:0.75rem;">À adapter à vos statuts et à votre organisation locale — <a href="index.html">← Retour à l'accueil du guide</a></p>
+</footer>
+
+</body>
+</html>

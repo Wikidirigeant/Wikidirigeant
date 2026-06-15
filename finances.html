@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finances & Sponsoring – Guide du Président FFT</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-ball">🎾</div>
+      <div class="nav-logo-text">Guide<br>Président</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="generalites.html">Généralités</a></li>
+      <li><a href="rh.html">RH</a></li>
+      <li><a href="finances.html" class="active">Finances</a></li>
+      <li><a href="adoc.html">ADOC</a></li>
+      <li><a href="pratiques.html">Autres pratiques</a></li>
+      <li><a href="pensez-y.html">Pensez-y !</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="badge-row">
+      <span class="badge">Chapitre 3</span>
+      <span class="badge badge-outline">Finances & Sponsoring</span>
+    </div>
+    <h1>Finances &amp; <span>Sponsoring</span></h1>
+    <p class="sub">Comprendre les finances de votre club, maîtriser la paie, trouver des partenaires — pour un club sain et ambitieux.</p>
+  </div>
+</div>
+
+<div class="container">
+<section>
+  <div class="sec-header">
+    <div class="sec-num">—</div>
+    <div class="sec-title">
+      <h2>Situation de départ</h2>
+      <p>Par où commencer ?</p>
+    </div>
+  </div>
+
+  <p>Les financements d'un club proviennent :
+      <div> - des adhésions</div>
+      <div> - du sponsoring</div> 
+      <div> - des subventions</div> 
+    </p>
+  <style>
+/* ── ACCORDÉON ── */
+.accordion { margin: 20px 0; display: flex; flex-direction: column; gap: 6px; }
+
+.acc-item {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  overflow: hidden;
+  border-left: 3px solid transparent;
+}
+.acc-item:nth-child(1) { border-left-color: var(--clay); }
+.acc-item:nth-child(2) { border-left-color: #b03a1a; }
+.acc-item:nth-child(3) { border-left-color: var(--navy); }
+.acc-item:nth-child(4) { border-left-color: #14396b; }
+.acc-item:nth-child(5) { border-left-color: var(--grass); }
+
+.acc-trigger {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.93rem;
+  font-weight: 500;
+  color: var(--navy);
+  transition: background 0.15s;
+}
+.acc-trigger:hover { background: var(--paper); }
+
+.acc-icon { font-size: 1.15rem; flex-shrink: 0; }
+.acc-label { flex: 1; }
+.acc-arrow {
+  font-size: 0.75rem;
+  color: var(--muted);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.acc-item.open .acc-arrow { transform: rotate(180deg); }
+
+.acc-body {
+  display: none;
+  padding: 0 16px 16px 42px;
+}
+.acc-item.open .acc-body { display: block; }
+
+.acc-body ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+}
+.acc-body ul li {
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.55;
+  padding: 8px 12px;
+  background: var(--paper);
+  border-radius: 5px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.acc-body ul li::before {
+  content: '?';
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  color: var(--clay);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+</style>
+<p> <h3> Les premières actions de trésorerie</h3>
+
+<div class="accordion">
+
+  <!-- 1 -->
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      <span class="acc-icon">📸</span>
+      <span class="acc-label">Prendre une photo de la situation existante</span>
+      <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body">
+      <ul>
+        <li>Quels sont les soldes de chaque compte bancaire à ce jour ?</li>
+        <li>Y a-t-il des chèques émis non encaissés ou des virements en attente ?</li>
+        <li>La comptabilité est-elle à jour, ou y a-t-il des mois de retard ?</li>
+        <li>Qui avait accès aux comptes avant moi — les droits ont-ils été mis à jour ?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      <span class="acc-icon">💸</span>
+      <span class="acc-label">Dettes et engagements cachés</span>
+      <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body">
+      <ul>
+        <li>Y a-t-il des factures reçues non payées (fournisseurs, prestataires) ?</li>
+        <li>Des emprunts ou facilités de caisse en cours ?</li>
+        <li>Des cautions ou dépôts de garantie versés ou reçus ?</li>
+        <li>Le club est-il à jour de ses cotisations FFT et ligues ?</li>
+        <li>Y a-t-il des litiges en cours (risque de remboursement ou d'amende) ?</li>
+        <li>Des subventions reçues avec obligation de résultat ou de reversement ?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      <span class="acc-icon">📅</span>
+      <span class="acc-label">Flux récurrents à cartographier</span>
+      <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body">
+      <ul>
+        <li>Quelles sont les charges fixes mensuelles (assurances, loyers, abonnements, salaires) ?</li>
+        <li>Quel est le calendrier des encaissements — quand tombent les cotisations membres ?</li>
+        <li>Y a-t-il des saisonnalités à anticiper (grosse dépense en début de saison, pic de trésorerie après les inscriptions) ?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      <span class="acc-icon">📂</span>
+      <span class="acc-label">Outils et organisation</span>
+      <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body">
+      <ul>
+        <li>Sur quel logiciel ou outil la comptabilité est-elle tenue (Excel, logiciel associatif, expert-comptable) ?</li>
+        <li>Y a-t-il un budget prévisionnel pour l'exercice en cours ?</li>
+        <li>Les justificatifs (factures, reçus) sont-ils archivés et retrouvables ?</li>
+        <li>Y a-t-il un commissaire aux comptes ou un vérificateur désigné par l'AG ?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      <span class="acc-icon">🤝</span>
+      <span class="acc-label">Relations externes</span>
+      <span class="acc-arrow">▼</span>
+    </button>
+    <div class="acc-body">
+      <ul>
+        <li>Qui sont les signataires bancaires autorisés, et faut-il les mettre à jour ?</li>
+        <li>Y a-t-il un expert-comptable — quel est son périmètre exact ?</li>
+        <li>Quelles sont les subventions attendues (mairie, département, CNDS…) et à quelles conditions ?</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /accordion -->
+ </p>
+
+<section>
+  <div class="sec-header">
+    <div class="sec-num">01</div>
+    <div class="sec-title">
+      <h2>Koteez : l'outil qui change tout</h2>
+      <p>Définir une politique tarifaire équilibrée, en quelques clics.</p>
+    </div>
+  </div>
+
+  <div class="highlight-block">
+    <h3>Koteez — La calculette du dirigeant FFT</h3>
+    <p>Koteez est un outil en ligne gratuit conçu par la FFT pour aider les clubs à définir une politique tarifaire équilibrée et responsable. Vous saisissez vos dépenses, vos subventions et vos groupes d'adhérents, et l'outil calcule le <strong>coût réel par pratiquant</strong> pour vous permettre d'équilibrer vos comptes prévisionnels.</p>
+    <p>Vous pouvez simuler différents scénarios tarifaires avant de les présenter en AG. Fini les cotisations fixées "au doigt mouillé" !</p>
+    <br>
+    <a href="https://koteez.fft.fr" target="_blank" style="color:var(--clay); font-weight:500;">→ Accéder à Koteez</a>
+  </div>
+</section>
+
+<section>
+  <div class="sec-header">
+    <div class="sec-num">02</div>
+    <div class="sec-title">
+      <h2>Le bilan d'une association sportive</h2>
+      <p>Les deux documents comptables à produire chaque année pour l'AG.</p>
+    </div>
+  </div>
+
+  <p>Contrairement à une entreprise, une association ne cherche pas le profit mais doit quand même équilibrer ses comptes. Voici la structure de base des documents comptables annuels.</p>
+
+  <h3>Le bilan comptable (situation patrimoniale)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="background:var(--grass);">🟢 ACTIF — ce que vous possédez</th>
+          <th style="background:var(--clay);">🔴 PASSIF — ce que vous devez</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Actif immobilisé</strong><br><small style="color:var(--muted);">Matériel sportif, équipements, travaux capitalisés</small></td>
+          <td><strong>Fonds associatifs</strong><br><small style="color:var(--muted);">Réserves accumulées, résultats antérieurs</small></td>
+        </tr>
+        <tr>
+          <td><strong>Actif circulant</strong><br><small style="color:var(--muted);">Créances cotisations, subventions à recevoir</small></td>
+          <td><strong>Subventions d'investissement</strong><br><small style="color:var(--muted);">Aides fléchées sur du matériel</small></td>
+        </tr>
+        <tr>
+          <td><strong>Trésorerie</strong><br><small style="color:var(--muted);">Comptes bancaires, caisse</small></td>
+          <td><strong>Dettes</strong><br><small style="color:var(--muted);">Fournisseurs à payer, charges sociales, emprunts</small></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Le compte de résultat (activité de l'année)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="background:var(--grass);">✅ PRODUITS — recettes</th>
+          <th style="background:#8b0000;">❌ CHARGES — dépenses</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cotisations des adhérents</td>
+          <td>Salaires + charges sociales</td>
+        </tr>
+        <tr>
+          <td>Cours et enseignement</td>
+          <td>Entretien des courts</td>
+        </tr>
+        <tr>
+          <td>Subventions publiques (mairie, département, région, ANS)</td>
+          <td>Frais de fonctionnement (eau, énergie, assurances)</td>
+        </tr>
+        <tr>
+          <td>Sponsoring / mécénat</td>
+          <td>Achats de matériel (balles, filets…)</td>
+        </tr>
+        <tr>
+          <td>Tournois, animations</td>
+          <td>Licences et affiliations FFT</td>
+        </tr>
+        <tr>
+          <td>Location de courts</td>
+          <td>Frais de compétitions (déplacements…)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">📌 Résultat = Produits − Charges</span>
+    Si positif → excédent reporté en réserves. Si négatif → déficit à financer. L'objectif n'est pas de faire des bénéfices, mais d'équilibrer.
+    <br><a href="https://guidedudirigeant.fft.fr/administration/comptabilite-fiscalite/comptabilite-fiscalite/" target="_blank">→ Comptabilité &amp; fiscalité – Guide FFT</a>
+  </div>
+</section>
+
+<section>
+  <div class="sec-header">
+    <div class="sec-num">03</div>
+    <div class="sec-title">
+      <h2>Rédiger une fiche de paie</h2>
+      <p>Les mentions légales obligatoires — dans l'ordre.</p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Rubrique obligatoire</th><th>Contenu</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Identification employeur</strong></td><td>Nom du club, adresse, SIRET, code APE/NAF, numéro URSSAF</td></tr>
+        <tr><td><strong>Identification salarié</strong></td><td>Nom, prénom, emploi, classification CCNS, coefficient</td></tr>
+        <tr><td><strong>Période de paie</strong></td><td>Mois concerné</td></tr>
+        <tr><td><strong>Convention collective</strong></td><td>Mention obligatoire de la CCNS (Convention Collective Nationale du Sport)</td></tr>
+        <tr><td><strong>Salaire brut</strong></td><td>Salaire de base + heures supplémentaires + primes éventuelles</td></tr>
+        <tr><td><strong>Cotisations salariales</strong></td><td>Sécurité sociale, retraite complémentaire (AGIRC-ARRCO), chômage, prévoyance, mutuelle</td></tr>
+        <tr><td><strong>CSG / CRDS</strong></td><td>Contribution Sociale Généralisée et Contribution Remboursement Dette Sociale</td></tr>
+        <tr><td><strong>Salaire net avant PAS</strong></td><td>Montant avant prélèvement à la source</td></tr>
+        <tr><td><strong>PAS</strong></td><td>Prélèvement à la Source — taux fourni par la DGFiP</td></tr>
+        <tr><td><strong>Salaire net à payer</strong></td><td>Montant final versé au salarié</td></tr>
+        <tr><td><strong>Congés payés</strong></td><td>Droits acquis et droits pris</td></tr>
+        <tr><td><strong>Cumuls annuels</strong></td><td>Brut annuel, cotisations annuelles</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-danger">
+    <span class="callout-label">⚠️ Ne faites pas ça seul si vous débutez</span>
+    La rédaction d'une fiche de paie est complexe et une erreur peut entraîner des redressements URSSAF. Pour les clubs qui débutent, utilisez le <strong>Chèque Emploi Associatif (CEA)</strong> via l'URSSAF — il simplifie radicalement la paie.
+    <br><a href="https://www.cea.urssaf.fr" target="_blank">→ Chèque Emploi Associatif (CEA)</a>
+  </div>
+</section>
+
+<section>
+  <div class="sec-header">
+    <div class="sec-num">04</div>
+    <div class="sec-title">
+      <h2>Aides financières disponibles</h2>
+      <p>Pour un club bien informé.</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card card-navy">
+      <span class="card-icon">🏛️</span>
+      <h4>Agence Nationale du Sport (ANS)</h4>
+      <p>Aide au développement des pratiques sportives. Dossier à déposer chaque année sur Le Compte Asso. Priorité QPV. Les projets padel, beach tennis et pickleball sont explicitement éligibles en 2025.</p>
+      <a href="https://guidedudirigeant.fft.fr/agence-nationale-du-sport-ex-cnds/" target="_blank">→ Guide FFT</a>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎾</span>
+      <h4>Aide à l'emploi FFT</h4>
+      <p>Aide annuelle pour les clubs employant un enseignant professionnel diplômé d'État. Conditions : contrat de travail, diplôme valide, licences actives.</p>
+      <a href="https://guidedudirigeant.fft.fr/aide-a-lemploi-fft/" target="_blank">→ Guide FFT</a>
+    </div>
+    <div class="card card-grass">
+      <span class="card-icon">🏗️</span>
+      <h4>Aide à l'équipement FFT</h4>
+      <p>Pour la construction ou rénovation de courts (tennis, padel, beach tennis). Dossier à monter avec le comité départemental.</p>
+      <a href="https://guidedudirigeant.fft.fr/aide-au-developpement-des-clubs-et-de-la-pratiques-test/" target="_blank">→ Guide FFT</a>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌱</span>
+      <h4>Transition écologique</h4>
+      <p>Aides FFT spécifiques pour l'éclairage LED, les panneaux solaires, la récupération d'eau de pluie. Un investissement rentable à moyen terme.</p>
+      <a href="https://guidedudirigeant.fft.fr/aides-a-la-transition-ecologique-des-clubs/" target="_blank">→ Guide FFT</a>
+    </div>
+    <div class="card">
+      <span class="card-icon">🏡</span>
+      <h4>Espaces de vie</h4>
+      <p>Aide pour l'aménagement du club house, terrasses, vestiaires. Un espace convivial fidélise les adhérents et attire les familles.</p>
+      <a href="https://guidedudirigeant.fft.fr/amenagement-des-espaces-de-vie/" target="_blank">→ Guide FFT</a>
+    </div>
+    <div class="card">
+      <span class="card-icon">💳</span>
+      <h4>Pass Sport &amp; Coupon Sport</h4>
+      <p>Aides gouvernementales directement déductibles des cotisations (50€ par bénéficiaire). Votre club doit être référencé pour les accepter — gratuit et sans démarche lourde.</p>
+    <a href="https://www.education.gouv.fr/le-pass-sport-458742">→ Site officiel</a>
+  </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-header">
+    <div class="sec-num">05</div>
+    <div class="sec-title">
+      <h2>Décrocher un sponsor : mode d'emploi</h2>
+      <p>Une ressource sous-exploitée par la plupart des clubs — même les petits.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">💡 Sponsoring vs Mécénat</span>
+    Le <strong>sponsoring</strong> est une prestation commerciale (visibilité en échange de paiement). Le <strong>mécénat</strong> est un don sans contrepartie significative, ouvrant droit à réduction fiscale pour le donateur (60% du montant versé, loi Aillagon). Les règles comptables et fiscales diffèrent — ne les confondez pas.
+    <br><a href="https://guidedudirigeant.fft.fr/administration/comptabilite-fiscalite/fiscalite-du-club/" target="_blank">→ Fiscalité du club – Guide FFT</a>
+  </div>
+
+  <div class="sponsor-step">
+    <div class="sp-num">1</div>
+    <div class="sp-content">
+      <h4>Définir votre offre sponsoring avant de prospecter</h4>
+      <p>Listez ce que vous pouvez offrir : logo sur les tenues, panneaux sur les courts, mention sur le site, invitation aux événements, accès à des créneaux de jeu. Construisez des <strong>packages (bronze/argent/or)</strong> avec un tarif annuel pour chacun. Cela professionnalise votre démarche.</p>
+    </div>
+  </div>
+
+  <div class="sponsor-step">
+    <div class="sp-num">2</div>
+    <div class="sp-content">
+      <h4>Créer un dossier de sponsoring impactant</h4>
+      <p>Présentation du club (adhérents, activités, rayonnement local), chiffres clés, contreparties proposées avec visuels, références si vous avez déjà des partenaires. <strong>2 à 4 pages maximum</strong> — les dirigeants d'entreprise lisent vite.</p>
+    </div>
+  </div>
+
+  <div class="sponsor-step">
+    <div class="sp-num">3</div>
+    <div class="sp-content">
+      <h4>Cibler les bons prospects</h4>
+      <p>Commencez par vos adhérents : chefs d'entreprise, artisans, professions libérales. Élargissez ensuite aux commerces proches du club, aux entreprises qui ciblent vos adhérents (assurances, banques, immobilier, sport/santé, automobile). Personnalisez chaque approche.</p>
+    </div>
+  </div>
+
+  <div class="sponsor-step">
+    <div class="sp-num">4</div>
+    <div class="sp-content">
+      <h4>Prendre contact en face-à-face</h4>
+      <p>Un email froid a peu d'impact. Un coup de téléphone suivi d'un rendez-vous physique est beaucoup plus efficace. Parlez du club, expliquez l'intérêt pour eux. Le sport véhicule des valeurs positives — c'est votre meilleur argument.</p>
+    </div>
+  </div>
+
+  <div class="sponsor-step">
+    <div class="sp-num">5</div>
+    <div class="sp-content">
+      <h4>Formaliser avec une convention de sponsoring</h4>
+      <p>Une convention écrite protège les deux parties : contreparties précises, durée, montant, modalités de paiement, conditions de résiliation. La FFT propose des modèles sur le Guide du dirigeant.</p>
+    </div>
+  </div>
+
+  <div class="sponsor-step">
+    <div class="sp-num">6</div>
+    <div class="sp-content">
+      <h4>Fidéliser et valoriser votre sponsor</h4>
+      <p>Un partenaire qui renouvelle est plus précieux qu'un nouveau à recruter. Invitez-le à vos événements, envoyez-lui un bilan annuel de sa visibilité, publiez des posts le mettant en avant. Faites de lui un ambassadeur de votre club.</p>
+    </div>
+  </div>
+  <a href="dossier-sponsoring.pptx" download>→ Télécharger un exemple de dossier de sponsoring</a>
+</section>
+
+</div>
+
+<footer>
+  <p><strong>Guide du président de club affilié FFT</strong> &nbsp;·&nbsp; Saison 2025–2026</p>
+  <p style="margin-top:8px; font-size:0.75rem;"><a href="index.html">← Retour à l'accueil</a></p>
+</footer>
+<script>
+function toggleAcc(trigger) {
+  const item = trigger.closest('.acc-item');
+  item.classList.toggle('open');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charte d'utilisation des photos – Guide du Président FFT</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+
+    /* ── DOCUMENT SHELL ── */
+    .doc-shell {
+      background: white;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+      margin: 28px 0;
+    }
+
+    /* ── DOCUMENT HEADER ── */
+    .doc-header {
+      background: var(--navy);
+      color: white;
+      padding: 32px 40px 28px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: start;
+      position: relative;
+      overflow: hidden;
+    }
+    .doc-header::after {
+      content: '📸';
+      position: absolute;
+      right: 120px; bottom: -14px;
+      font-size: 8rem;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .doc-logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .doc-logo-ball {
+      width: 40px; height: 40px;
+      background: var(--clay);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .doc-logo-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.2;
+    }
+
+    .doc-title-block h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .doc-title-block h1 span { color: var(--clay); }
+    .doc-title-block p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .doc-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-items: flex-end;
+      position: relative; z-index: 1;
+    }
+    .doc-meta-tag {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.8);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 3px;
+    }
+
+    /* ── PREAMBLE BAND ── */
+    .preamble {
+      background: var(--clay-light);
+      border-bottom: 1px solid #e8d0c4;
+      padding: 18px 40px;
+    }
+    .preamble p {
+      font-size: 0.9rem;
+      color: #5a2a10;
+      line-height: 1.65;
+      margin: 0;
+    }
+    .preamble strong { color: var(--clay); }
+
+    /* ── DOCUMENT BODY ── */
+    .doc-body {
+      padding: 36px 40px;
+    }
+
+    /* ── ARTICLE ── */
+    .article {
+      margin-bottom: 32px;
+    }
+    .article:last-of-type { margin-bottom: 0; }
+
+    .article-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .article-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--clay-light);
+      line-height: 1;
+      border-top: 3px solid var(--clay);
+      padding-top: 3px;
+      min-width: 36px;
+    }
+    .article-title {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .article-content {
+      padding-left: 48px;
+    }
+    .article-content p {
+      font-size: 0.9rem;
+      color: var(--navy);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .article-content p:last-child { margin-bottom: 0; }
+
+    /* ── OUI / NON GRID ── */
+    .ouinon-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 12px 0;
+    }
+    .oui-col, .non-col {
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .col-head {
+      padding: 8px 14px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .oui-col .col-head { background: var(--grass); color: white; }
+    .non-col .col-head { background: var(--clay); color: white; }
+
+    .col-items {
+      background: white;
+      border: 1px solid var(--rule);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      padding: 10px 0;
+    }
+    .col-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 6px 14px;
+      font-size: 0.84rem;
+      line-height: 1.45;
+      color: var(--navy);
+    }
+    .col-item::before {
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .oui-col .col-item::before { content: '✓'; color: var(--grass); font-weight: 700; }
+    .non-col .col-item::before { content: '✗'; color: var(--clay); font-weight: 700; }
+
+    /* ── RULE LIST ── */
+    .rule-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .rule-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: var(--navy);
+    }
+    .rule-list li::before {
+      content: '→';
+      color: var(--clay);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── MINEURS ALERT ── */
+    .mineurs-alert {
+      background: #fff3f0;
+      border: 2px solid var(--clay);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 12px 0;
+    }
+    .mineurs-alert .ma-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: var(--clay);
+      margin-bottom: 8px;
+    }
+    .mineurs-alert p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--navy);
+      margin: 0;
+    }
+    .mineurs-alert strong { color: var(--clay); }
+
+    /* ── ARTICLE DIVIDER ── */
+    .art-divider {
+      border: none;
+      border-top: 1px dashed var(--rule);
+      margin: 28px 0;
+    }
+
+    /* ── SIGNATURE BLOCK ── */
+    .signature-block {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 24px 28px;
+      margin: 32px 0 0;
+    }
+    .sig-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+    .sig-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .sig-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .sig-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .sig-line {
+      border-bottom: 1px solid var(--navy);
+      height: 36px;
+      margin-top: 4px;
+    }
+    .sig-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── FORMULAIRE AUTORISATION ── */
+    .form-section {
+      background: var(--paper);
+      border: 2px dashed var(--rule);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin: 28px 0 0;
+      page-break-before: always;
+    }
+    .form-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.06em;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .form-subtitle {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .form-field {
+      margin-bottom: 16px;
+    }
+    .form-field label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 5px;
+    }
+    .form-line {
+      border: none;
+      border-bottom: 1px solid var(--navy);
+      background: transparent;
+      width: 100%;
+      height: 28px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--navy);
+    }
+    .form-line:focus { outline: none; border-bottom-color: var(--clay); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+    .form-radio-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .form-radio-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    .form-radio-item input[type="radio"] {
+      accent-color: var(--clay);
+      width: 16px; height: 16px;
+    }
+
+    .form-checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 10px 14px;
+      background: white;
+      border-radius: 5px;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      margin-bottom: 7px;
+      border: 1px solid var(--rule);
+    }
+    .form-checkbox-item input[type="checkbox"] {
+      accent-color: var(--clay);
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .form-sig-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .form-sig-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .form-sig-label { font-size: 0.78rem; font-weight: 500; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+    .form-sig-area {
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      height: 70px;
+      background: white;
+    }
+    .form-sig-sub { font-size: 0.73rem; color: var(--muted); font-style: italic; }
+
+    .scissors-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin: 24px 0 20px;
+    }
+    .scissors-line::before,
+    .scissors-line::after {
+      content: '';
+      flex: 1;
+      border-top: 1px dashed var(--rule);
+    }
+
+    /* ── LEGAL NOTE ── */
+    .legal-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.55;
+      background: var(--paper);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 16px 0 0;
+      border-left: 3px solid var(--rule);
+    }
+
+    /* ── PRINT & ACTION ── */
+    .action-bar {
+      display: flex;
+      gap: 10px;
+      margin: 0 0 8px;
+      flex-wrap: wrap;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 4px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: opacity 0.15s;
+    }
+    .btn-action:hover { opacity: 0.85; }
+    .btn-navy { background: var(--navy); color: white; }
+    .btn-clay { background: var(--clay); color: white; }
+    .btn-outline-a { background: transparent; border: 1px solid var(--clay); color: var(--clay); }
+
+    @media (max-width: 640px) {
+      .doc-header { grid-template-columns: 1fr; padding: 22px; }
+      .doc-body { padding: 22px; }
+      .preamble { padding: 14px 22px; }
+      .ouinon-grid { grid-template-columns: 1fr; }
+      .sig-grid { grid-template-columns: 1fr; }
+      .form-row, .form-row-3, .form-sig-grid { grid-template-columns: 1fr; }
+      .article-content { padding-left: 0; }
+      .form-section { padding: 18px; }
+    }
+
+    @media print {
+      .site-nav, .action-bar { display: none !important; }
+      .doc-shell { box-shadow: none; border: 1px solid #ccc; }
+      body { background: white; font-size: 13px; }
+      .form-section { page-break-before: always; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-ball">🎾</div>
+      <div class="nav-logo-text">Guide<br>Président</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="generalites.html">Généralités</a></li>
+      <li><a href="rh.html">RH</a></li>
+      <li><a href="finances.html">Finances</a></li>
+      <li><a href="adoc.html">ADOC</a></li>
+      <li><a href="pratiques.html">Autres pratiques</a></li>
+      <li><a href="pensez-y.html">Pensez-y !</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="badge-row">
+      <span class="badge">Outil pratique</span>
+      <span class="badge badge-outline">Modèle à adapter</span>
+    </div>
+    <h1>Charte <span>photos &amp; images</span></h1>
+    <p class="sub">Un modèle complet de charte d'utilisation des photographies et vidéos au sein du club, conforme au RGPD et à la loi sur le droit à l'image — avec le formulaire d'autorisation parentale détachable.</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="action-bar" style="margin-top:24px;">
+    <button class="btn-action btn-navy" onclick="window.print()">🖨️ Imprimer / PDF</button>
+    <a href="generalites.html" class="btn-action btn-outline-a">← Retour Généralités</a>
+  </div>
+
+  <div class="callout" style="margin-top:16px;">
+    <span class="callout-label">💡 Mode d'emploi</span>
+    Remplacez les champs entre <strong>[crochets]</strong> par les informations de votre club. Imprimez la charte et le formulaire d'autorisation (page 2), et faites signer ce dernier par chaque famille à l'inscription. Conservez les formulaires signés dans les archives du club.
+  </div>
+
+  <!-- ══════════════════════════════════════
+       DOCUMENT PRINCIPAL
+  ══════════════════════════════════════ -->
+  <div class="doc-shell">
+
+    <div class="doc-header">
+      <div>
+        <div class="doc-logo-area">
+          <div class="doc-logo-ball">🎾</div>
+          <div class="doc-logo-name">[NOM DU CLUB]<br>Club affilié FFT</div>
+        </div>
+        <div class="doc-title-block">
+          <h1>Charte d'utilisation des <span>photographies &amp; vidéos</span></h1>
+          <p>Document encadrant la prise de vue, la conservation et la diffusion des images au sein du club</p>
+        </div>
+      </div>
+      <div class="doc-meta">
+        <span class="doc-meta-tag">Version 2025–2026</span>
+        <span class="doc-meta-tag">RGPD conforme</span>
+        <span class="doc-meta-tag">Droit à l'image</span>
+      </div>
+    </div>
+
+    <div class="preamble">
+      <p>Le <strong>[NOM DU CLUB]</strong>, association loi 1901 affiliée à la Fédération Française de Tennis, est amené à prendre des photographies et des vidéos lors de ses activités sportives, compétitions et événements. Dans le respect du <strong>Règlement Général sur la Protection des Données (RGPD)</strong> et de la législation française sur le <strong>droit à l'image</strong>, le club s'engage à traiter ces images avec le soin et la transparence que chaque membre est en droit d'attendre.</p>
+    </div>
+
+    <div class="doc-body">
+
+      <!-- ART 1 -->
+      <div class="article">
+        <div class="article-head">
+          <div class="article-num">1</div>
+          <div class="article-title">Objet et champ d'application</div>
+        </div>
+        <div class="article-content">
+          <p>La présente charte s'applique à <strong>toute personne physique</strong> (membres, adhérents, bénévoles, visiteurs, partenaires) susceptible d'être photographiée ou filmée dans le cadre des activités du club, sur ses installations ou lors d'événements organisés par lui.</p>
+          <p>Elle régit la prise de vue, la conservation, l'utilisation et la diffusion de toute image — photographie, vidéo, direct ou extrait — impliquant des personnes identifiables.</p>
+        </div>
+      </div>
+
+      <hr class="art-divider">
+
+      <!-- ART 2 -->
+      <div class="article">
+        <div class="article-head">
+          <div class="article-num">2</div>
+          <div class="article-title">Qui peut prendre des photos au club ?</div>
+        </div>
+        <div class="article-content">
+          <div class="ouinon-grid">
+            <div class="oui-col">
+              <div class="col-head">✓ Autorisé</div>
+              <div class="col-items">
+                <div class="col-item">Le club, via ses bénévoles désignés ou son référent communication</div>
+                <div class="col-item">Les parents pour leurs propres enfants, à usage strictement privé</div>
+                <div class="col-item">Les journalistes ou photographes accrédités par le club</div>
+                <div class="col-item">Les photographes officiels des compétitions FFT</div>
+              </div>
+            </div>
+            <div class="non-col">
+              <div class="col-head">✗ Interdit</div>
+              <div class="col-items">
+                <div class="col-item">Photographier d'autres enfants que les siens sans autorisation de leurs parents</div>
+                <div class="col-item">Filmer dans les vestiaires ou espaces privatifs</div>
+                <div class="col-item">Diffuser des photos prises au club sans accord du club</div>
+                <div class="col-item">Utiliser des images du club à des fins commerciales sans convention</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="art-divider">
+
+      <!-- ART 3 -->
+      <div class="article">
+        <div class="article-head">
+          <div class="article-num">3</div>
+          <div class="article-title">Protection des mineurs — règles absolues</div>
+        </div>
+        <div class="article-content">
+          <div class="mineurs-alert">
+            <div class="ma-head">⚠️ Mineurs — tolérance zéro</div>
+            <p>Toute photographie ou vidéo impliquant un <strong>mineur identifiable</strong> requiert l'autorisation écrite préalable des parents ou représentants légaux. Sans ce document signé, <strong>aucune image de l'enfant ne peut être prise ni diffusée</strong>, y compris sur des photos de groupe. Cette règle s'applique sans exception, même lorsque l'image semble anodine.</p>
+          </div>
+          <ul class="rule-list">
+            <li>Le formulaire d'autorisation parentale (page 2) doit être signé à l'inscription et renouvelé chaque saison.</li>
+            <li>En cas de refus des parents, <strong>aucune image de l'enfant ne sera prise ni diffusée</strong>, et les autres membres du club seront informés discrètement.</li>
+            <li>Les images de mineurs en maillot de bain ou tenues légères (beach tennis, stages été) sont soumises aux mêmes règles et à une vigilance renforcée.</li>
+            <li>Un adulte ne doit jamais photographier seul un mineur dans un espace isolé.</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="art-divider">
+
+      <!-- ART 4 -->
+      <div class="article">
+        <div class="article-head">
+          <div class="article-num">4</div>
+          <div class="article-title">Usages autorisés des images par le club</div>
+        </div>
+        <div class="article-content">
+          <p>Sous réserve des autorisations recueillies, le club peut utiliser les images pour :</p>
+          <div class="ouinon-grid">
+            <div class="oui-col">
+              <div class="col-head">✓ Usages autorisés</div>
+              <div class="col-items">
+                <div class="col-item">Site web et page Ten'Up du club</div>
+                <div class="col-item">Réseaux sociaux officiels du club</div>
+                <div class="col-item">Newsletter et communications aux adhérents</div>
+                <div class="col-item">Rapport moral annuel présenté en AG</div>
+                <div class="col-item">Panneaux d'affichage dans les locaux du club</div>
+                <div class="col-item">Dossiers de subvention et partenariats</div>
+                <div class="col-item">Presse locale (avec mention de la source)</div>
+              </div>
+            </div>
+            <div class="non-col">
+              <div class="col-head">✗ Usages interdits</div>
+              <div class="col-items">
+                <div class="col-item">Usage commercial ou publicitaire sans consentement exprès</div>
+                <div class="col-item">Cession à des tiers sans accord écrit des personnes concernées</div>
+                <div class="col-item">Publication sur des sites ou comptes non officiels du club</div>
+                <div class="col-item">Diffusion d'images accompagnées d'informations personnelles (nom complet + photo d'un mineur)</div>
+                <div class="col-item">Usage dégradant, humoristique involontaire ou portant atteinte à la dignité</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="art-divider">
+
+      <!-- ART 5 -->
+      <div class="article">
+        <div class="article-head">
+          <div class="article-num">5</div>
+          <div class="article-title">Conservation et sécurité des images</div>
+        </div>
+        <div class="article-content">
+          <ul class="rule-list">
+            <li>Les images sont conservées sur un support sécurisé accessible uniquement aux responsables désignés du club (référent communication, président, secrétaire).</li>
+            <li>La durée de conservation est limitée à <strong>3 ans après la fin de la relation avec le club</strong> (départ de l'adhérent, fin de saison).</li>
+            <li>Les images ne sont pas stockées sur des appareils personnels non sécurisés.</li>
+            <li>En cas de violation de données (perte, accès non autorisé), le club en informe les personnes concernées dans les meilleurs délais.</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="art-divider">
+
+      <!-- ART 6 -->
+      <div class="article">
+        <div class="article-head">
+          <div class="article-num">6</div>
+          <div class="article-title">Droits des personnes (RGPD)</div>
+        </div>
+        <div class="article-content">
+          <p>Conformément au RGPD (Règlement UE 2016/679) et à la loi Informatique et Libertés, toute personne disposant d'une image gérée par le club bénéficie des droits suivants :</p>
+          <ul class="rule-list">
+            <li><strong>Droit d'accès</strong> — obtenir communication des images vous concernant détenues par le club.</li>
+            <li><strong>Droit de rectification</strong> — demander la correction d'une information inexacte associée à une image.</li>
+            <li><strong>Droit à l'effacement</strong> — demander la suppression de vos images (le "droit à l'oubli"), sauf obligation légale de conservation.</li>
+            <li><strong>Droit d'opposition</strong> — s'opposer à tout moment à l'utilisation de vos images, y compris en retirant une autorisation préalablement donnée.</li>
+            <li><strong>Droit à la portabilité</strong> — obtenir vos images dans un format réutilisable.</li>
+          </ul>
+          <p style="margin-top:12px;">Pour exercer ces droits, contactez le club à l'adresse : <strong>[EMAIL DU CLUB]</strong> ou par courrier à <strong>[ADRESSE DU CLUB]</strong>. Le club dispose d'un délai d'<strong>un mois</strong> pour répondre.</p>
+        </div>
+      </div>
+
+      <hr class="art-divider">
+
+      <!-- ART 7 -->
+      <div class="article">
+        <div class="article-head">
+          <div class="article-num">7</div>
+          <div class="article-title">Réseaux sociaux — règles spécifiques</div>
+        </div>
+        <div class="article-content">
+          <ul class="rule-list">
+            <li>Le club dispose de comptes officiels sur les réseaux sociaux. Toute publication sur ces comptes respecte la présente charte.</li>
+            <li>Les membres sont libres de partager les publications officielles du club depuis leurs comptes personnels.</li>
+            <li>En revanche, publier des photos prises lors d'activités du club sur un compte personnel en identifiant d'autres personnes sans leur accord est <strong>déconseillé</strong> et peut engager la responsabilité personnelle de l'auteur.</li>
+            <li>Les commentaires blessants, moqueurs ou dégradants sous des photos publiées par le club peuvent entraîner une exclusion temporaire des espaces numériques du club.</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="art-divider">
+
+      <!-- ART 8 -->
+      <div class="article">
+        <div class="article-head">
+          <div class="article-num">8</div>
+          <div class="article-title">Recours en cas de manquement</div>
+        </div>
+        <div class="article-content">
+          <p>Tout manquement à la présente charte signalé au président du club fera l'objet d'un traitement dans les meilleurs délais : suppression immédiate des images concernées, contact avec la personne en cause, et si nécessaire, sanctions disciplinaires conformément au règlement intérieur.</p>
+          <p>En cas de litige non résolu, les personnes concernées peuvent saisir la <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libertés) via <a href="https://www.cnil.fr" target="_blank">cnil.fr</a>.</p>
+        </div>
+      </div>
+
+      <hr class="art-divider">
+
+      <!-- SIGNATURE CHARTE -->
+      <div class="signature-block">
+        <div class="sig-title">Validation et entrée en vigueur</div>
+        <p style="font-size:0.85rem; color:var(--muted); margin-bottom:18px;">La présente charte a été approuvée par le bureau du club et entre en vigueur à compter de sa date de signature. Elle est remise à chaque adhérent à l'inscription et affichée dans les locaux du club.</p>
+        <div class="sig-grid">
+          <div class="sig-item">
+            <div class="sig-label">Lieu &amp; date</div>
+            <div class="sig-line"></div>
+            <div class="sig-sub">[Ville], le ___/___/______</div>
+          </div>
+          <div class="sig-item">
+            <div class="sig-label">Le Président(e) du club</div>
+            <div class="sig-line"></div>
+            <div class="sig-sub">Nom, prénom et signature</div>
+          </div>
+          <div class="sig-item">
+            <div class="sig-label">Tampon du club</div>
+            <div class="sig-line"></div>
+            <div class="sig-sub">Cachet officiel</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /doc-body -->
+  </div><!-- /doc-shell -->
+
+
+  <!-- ══════════════════════════════════════
+       FORMULAIRE D'AUTORISATION DÉTACHABLE
+  ══════════════════════════════════════ -->
+  <div class="form-section">
+
+    <div class="scissors-line">✂️ &nbsp; À détacher et conserver par le club — à remettre signé à l'inscription</div>
+
+    <div class="form-title">Formulaire d'autorisation de prise de vue &amp; droit à l'image</div>
+    <div class="form-subtitle">Saison sportive [SAISON] — [NOM DU CLUB]</div>
+
+    <!-- IDENTITÉ -->
+    <div class="fb-section-title" style="font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:0.14em; color:var(--muted); border-bottom:1px solid var(--rule); padding-bottom:6px; margin-bottom:14px;">Identité de l'adhérent concerné</div>
+
+    <div class="form-row" style="margin-bottom:14px;">
+      <div class="form-field">
+        <label>Nom de l'adhérent</label>
+        <input type="text" class="form-line" placeholder=" ">
+      </div>
+      <div class="form-field">
+        <label>Prénom</label>
+        <input type="text" class="form-line" placeholder=" ">
+      </div>
+    </div>
+
+    <div class="form-row-3" style="margin-bottom:18px;">
+      <div class="form-field">
+        <label>Date de naissance</label>
+        <input type="text" class="form-line" placeholder="jj/mm/aaaa">
+      </div>
+      <div class="form-field">
+        <label>Catégorie</label>
+        <input type="text" class="form-line" placeholder="U10, adulte…">
+      </div>
+      <div class="form-field">
+        <label>L'adhérent est</label>
+        <div class="form-radio-group" style="margin-top:6px;">
+          <label class="form-radio-item"><input type="radio" name="age" value="majeur"> Majeur</label>
+          <label class="form-radio-item"><input type="radio" name="age" value="mineur"> Mineur</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- SI MINEUR -->
+    <div style="background:#fff3f0; border:1px solid #f5c4b4; border-radius:6px; padding:14px 16px; margin-bottom:18px;">
+      <div style="font-size:0.8rem; font-weight:500; color:var(--clay); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Si mineur — Identité du responsable légal</div>
+      <div class="form-row" style="margin-bottom:10px;">
+        <div class="form-field">
+          <label>Nom &amp; prénom du parent / tuteur</label>
+          <input type="text" class="form-line" placeholder=" ">
+        </div>
+        <div class="form-field">
+          <label>Lien avec l'enfant</label>
+          <input type="text" class="form-line" placeholder="Père, mère, tuteur…">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Email</label>
+          <input type="text" class="form-line" placeholder=" ">
+        </div>
+        <div class="form-field">
+          <label>Téléphone</label>
+          <input type="text" class="form-line" placeholder=" ">
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTORISATIONS -->
+    <div class="fb-section-title" style="font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:0.14em; color:var(--muted); border-bottom:1px solid var(--rule); padding-bottom:6px; margin-bottom:14px;">Autorisations accordées</div>
+
+    <p style="font-size:0.85rem; color:var(--muted); margin-bottom:12px;">Je soussigné(e), <em>(nom du parent/tuteur si mineur, ou de l'adhérent si majeur)</em>, autorise le <strong>[NOM DU CLUB]</strong> à :</p>
+
+    <div class="form-checkbox-item">
+      <input type="checkbox" id="aut1">
+      <label for="aut1">Prendre des photographies et/ou vidéos de l'adhérent lors des activités du club (entraînements, compétitions, animations).</label>
+    </div>
+    <div class="form-checkbox-item">
+      <input type="checkbox" id="aut2">
+      <label for="aut2">Publier ces images sur le <strong>site web et la page Ten'Up</strong> du club.</label>
+    </div>
+    <div class="form-checkbox-item">
+      <input type="checkbox" id="aut3">
+      <label for="aut3">Publier ces images sur les <strong>réseaux sociaux officiels</strong> du club (Facebook, Instagram…).</label>
+    </div>
+    <div class="form-checkbox-item">
+      <input type="checkbox" id="aut4">
+      <label for="aut4">Utiliser ces images dans les <strong>newsletters, rapports moraux et dossiers de subvention</strong> du club.</label>
+    </div>
+    <div class="form-checkbox-item">
+      <input type="checkbox" id="aut5">
+      <label for="aut5">Transmettre ces images à la <strong>presse locale</strong> dans le cadre de la valorisation des activités du club.</label>
+    </div>
+
+    <div class="legal-note">
+      Cette autorisation est valable pour la saison sportive <strong>[SAISON]</strong> et peut être retirée à tout moment par écrit auprès du président du club. Elle ne confère aucun droit à rémunération. Les images seront conservées 3 ans maximum. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et d'effacement de vos données — contact : <strong>[EMAIL DU CLUB]</strong>.
+    </div>
+
+    <!-- SIGNATURE -->
+    <div class="form-sig-grid" style="margin-top:20px;">
+      <div class="form-sig-box">
+        <div class="form-sig-label">Lieu &amp; date</div>
+        <div class="form-sig-area" style="display:flex; align-items:flex-end; padding:6px 10px;">
+          <input type="text" class="form-line" placeholder="[Ville], le ___/___/______" style="border-bottom:1px solid var(--rule);">
+        </div>
+      </div>
+      <div class="form-sig-box">
+        <div class="form-sig-label">Signature (précédée de "Lu et approuvé")</div>
+        <div class="form-sig-area"></div>
+        <div class="form-sig-sub">Parent/tuteur si mineur • Adhérent si majeur</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px; padding:10px 14px; background:white; border:1px solid var(--rule); border-radius:5px; display:flex; align-items:flex-start; gap:10px; font-size:0.83rem; color:var(--muted);">
+      <span>📋</span>
+      <span>Ce formulaire est à remettre signé au secrétaire du club lors de l'inscription. Un exemplaire peut être gardé par la famille sur demande. En cas de non-retour du formulaire, <strong>aucune image</strong> de l'adhérent ne sera prise ni diffusée.</span>
+    </div>
+
+  </div><!-- /form-section -->
+
+</div><!-- /container -->
+
+<footer>
+  <p><strong>Charte d'utilisation des photographies &amp; vidéos</strong> &nbsp;·&nbsp; Modèle club affilié FFT &nbsp;·&nbsp; Saison 2025–2026</p>
+  <p style="margin-top:8px; font-size:0.75rem;">Document à adapter à votre contexte — à faire valider par votre bureau avant diffusion — <a href="index.html">← Retour à l'accueil</a></p>
+</footer>
+
+</body>
+</html>

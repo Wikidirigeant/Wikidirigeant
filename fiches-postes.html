@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiches de postes – Guide du Président FFT</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+
+    /* ── TAB NAV ── */
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 3px solid var(--rule);
+      margin: 32px 0 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 22px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -3px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .tab-btn:hover { color: var(--navy); }
+    .tab-btn.active {
+      color: var(--navy);
+      border-bottom-color: var(--clay);
+      font-weight: 500;
+    }
+    .tab-btn .tb-icon { font-size: 1.1rem; }
+
+    /* ── FICHE CONTAINER ── */
+    .fiche-page { display: none; }
+    .fiche-page.visible { display: block; }
+
+    /* ── FICHE TOP BANNER ── */
+    .fiche-banner {
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 24px 0 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .fiche-banner-head {
+      padding: 28px 32px 24px;
+      color: white;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: start;
+      position: relative;
+      overflow: hidden;
+    }
+    .fiche-banner-head::after {
+      content: attr(data-watermark);
+      position: absolute;
+      right: -10px; bottom: -20px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 8rem;
+      opacity: 0.07;
+      line-height: 1;
+      pointer-events: none;
+      letter-spacing: 0.05em;
+    }
+
+    .fbh-left { position: relative; z-index: 1; }
+    .fbh-icon { font-size: 2.4rem; margin-bottom: 8px; display: block; }
+    .fbh-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .fbh-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.75;
+      font-style: italic;
+      font-family: 'Lora', serif;
+    }
+
+    .fbh-meta {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+    }
+    .fbh-tag {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 3px;
+    }
+
+    /* Color themes */
+    .fiche-banner-head.president { background: linear-gradient(135deg, var(--navy) 0%, #1a3a6e 100%); }
+    .fiche-banner-head.tresorier { background: linear-gradient(135deg, #7a3a10 0%, var(--clay) 100%); }
+    .fiche-banner-head.secretaire { background: linear-gradient(135deg, #0d3d25 0%, var(--grass) 100%); }
+
+    .fiche-banner-body {
+      background: white;
+      padding: 28px 32px;
+    }
+
+    /* ── SECTION BLOCKS ── */
+    .fb-section {
+      margin-bottom: 28px;
+    }
+    .fb-section:last-child { margin-bottom: 0; }
+
+    .fb-section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+      padding-bottom: 7px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    /* ── TWO-COL LAYOUT ── */
+    .fb-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* ── MISSION STATEMENT ── */
+    .mission-box {
+      background: var(--paper);
+      border-left: 4px solid;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--navy);
+    }
+    .mission-box.president { border-color: #1a3a6e; }
+    .mission-box.tresorier { border-color: var(--clay); }
+    .mission-box.secretaire { border-color: var(--grass); }
+
+    /* ── TASK LIST ── */
+    .task-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .task-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--navy);
+    }
+    .task-list li::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .president .task-list li::before { background: #1a3a6e; }
+    .tresorier .task-list li::before { background: var(--clay); }
+    .secretaire .task-list li::before { background: var(--grass); }
+
+    /* ── COMPETENCES GRID ── */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px;
+    }
+    .comp-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-size: 0.84rem;
+      font-weight: 400;
+    }
+    .comp-item .ci-icon { font-size: 1rem; flex-shrink: 0; }
+
+    .president .comp-item { background: #eef2fa; color: #1a3a6e; }
+    .tresorier .comp-item { background: var(--clay-light); color: #7a3a10; }
+    .secretaire .comp-item { background: #e8f5ee; color: #0d4a28; }
+
+    /* ── WEEKLY TIME ── */
+    .time-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--paper);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+    }
+    .time-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .president .time-num { color: #1a3a6e; }
+    .tresorier .time-num { color: var(--clay); }
+    .secretaire .time-num { color: var(--grass); }
+
+    .time-label { font-size: 0.83rem; color: var(--muted); line-height: 1.4; }
+    .time-label strong { display: block; color: var(--navy); }
+
+    /* ── CALENDAR RHYTHM ── */
+    .rhythm-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .rhythm-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+    .rhythm-period {
+      font-weight: 500;
+      min-width: 80px;
+      color: var(--navy);
+    }
+    .rhythm-bar-wrap {
+      flex: 1;
+      height: 8px;
+      background: var(--rule);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .rhythm-bar {
+      height: 100%;
+      border-radius: 4px;
+    }
+    .president .rhythm-bar { background: #1a3a6e; }
+    .tresorier .rhythm-bar { background: var(--clay); }
+    .secretaire .rhythm-bar { background: var(--grass); }
+
+    /* ── RESPONSABILITE BADGE ── */
+    .resp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin: 3px;
+    }
+    .resp-civile { background: #fff3f0; color: var(--clay); border: 1px solid #f5c4b4; }
+    .resp-penale { background: #fdf7dc; color: #7a6000; border: 1px solid #e8d080; }
+    .resp-none   { background: #eef2fa; color: #1a3a6e; border: 1px solid #b8caf0; }
+
+    /* ── OUTILS ROW ── */
+    .outils-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .outil-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: white;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      font-size: 0.82rem;
+      color: var(--navy);
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .outil-chip:hover { border-color: var(--clay); color: var(--clay); }
+
+    /* ── PRINT ── */
+    .action-bar {
+      display: flex;
+      gap: 10px;
+      margin: 16px 0 0;
+      flex-wrap: wrap;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 4px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: opacity 0.15s;
+    }
+    .btn-action:hover { opacity: 0.85; }
+    .btn-navy { background: var(--navy); color: white; }
+    .btn-outline-a { background: transparent; border: 1px solid var(--clay); color: var(--clay); }
+
+    /* ── DIVIDER ── */
+    .fb-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 22px 0;
+    }
+
+    @media (max-width: 640px) {
+      .fb-two-col { grid-template-columns: 1fr; }
+      .fiche-banner-head { padding: 20px; }
+      .fiche-banner-body { padding: 20px; }
+      .tab-btn { padding: 12px 14px; font-size: 0.82rem; }
+    }
+
+    @media print {
+      .site-nav, .tabs, .action-bar { display: none !important; }
+      .fiche-page { display: block !important; }
+      .fiche-banner { box-shadow: none; }
+      body { background: white; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-ball">🎾</div>
+      <div class="nav-logo-text">Guide<br>Président</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="generalites.html">Généralités</a></li>
+      <li><a href="rh.html">RH</a></li>
+      <li><a href="finances.html">Finances</a></li>
+      <li><a href="adoc.html">ADOC</a></li>
+      <li><a href="pratiques.html">Autres pratiques</a></li>
+      <li><a href="pensez-y.html">Pensez-y !</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="badge-row">
+      <span class="badge">Outil pratique</span>
+      <span class="badge badge-outline">Ressources Humaines</span>
+    </div>
+    <h1>Fiches de <span>postes</span></h1>
+    <p class="sub">Trois fiches détaillées pour les rôles fondamentaux du bureau d'un club affilié FFT — à partager, imprimer ou adapter librement.</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="action-bar" style="margin-top:28px;">
+    <button class="btn-action btn-navy" onclick="window.print()">🖨️ Imprimer / PDF</button>
+    <a href="rh.html" class="btn-action btn-outline-a">← Retour RH</a>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" onclick="showTab('president', this)" role="tab">
+      <span class="tb-icon">👑</span> Président(e)
+    </button>
+    <button class="tab-btn" onclick="showTab('tresorier', this)" role="tab">
+      <span class="tb-icon">💰</span> Trésorier(ère)
+    </button>
+    <button class="tab-btn" onclick="showTab('secretaire', this)" role="tab">
+      <span class="tb-icon">📝</span> Secrétaire
+    </button>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       FICHE PRÉSIDENT
+  ════════════════════════════════════════ -->
+  <div id="fiche-president" class="fiche-page visible president">
+    <div class="fiche-banner">
+      <div class="fiche-banner-head president" data-watermark="PRÉSIDENT">
+        <div class="fbh-left">
+          <span class="fbh-icon">👑</span>
+          <div class="fbh-title">Président(e)</div>
+          <div class="fbh-subtitle">Représentant légal de l'association</div>
+        </div>
+        <div class="fbh-meta">
+          <span class="fbh-tag">Poste obligatoire</span>
+          <span class="fbh-tag">Bénévole</span>
+          <span class="fbh-tag">Élu en AG</span>
+        </div>
+      </div>
+
+      <div class="fiche-banner-body">
+
+        <!-- MISSION -->
+        <div class="mission-box president">
+          Le président est la <strong>clé de voûte</strong> du club. Il représente légalement l'association dans tous ses actes civils et institutionnels, anime le projet associatif et fédère les énergies autour d'une vision partagée. C'est lui qui répond — au sens juridique — de la bonne marche de l'association.
+        </div>
+
+        <!-- MISSIONS & COMPÉTENCES -->
+        <div class="fb-two-col">
+
+          <div class="fb-section">
+            <div class="fb-section-title">Missions principales</div>
+            <ul class="task-list">
+              <li>Représenter le club auprès des tiers (mairie, FFT, Ligue, partenaires, médias)</li>
+              <li>Présider les réunions de bureau, les CA et les AG</li>
+              <li>Signer les contrats, conventions et engagements juridiques</li>
+              <li>Définir la stratégie et les orientations du club</li>
+              <li>Animer et coordonner l'équipe de bénévoles</li>
+              <li>Veiller au respect des statuts et du règlement intérieur</li>
+              <li>Assurer le lien avec le comité départemental et la Ligue</li>
+              <li>Rédiger le rapport moral annuel pour l'AG</li>
+            </ul>
+          </div>
+
+          <div class="fb-section">
+            <div class="fb-section-title">Missions ponctuelles</div>
+            <ul class="task-list">
+              <li>Déclarer les changements de bureau à la préfecture</li>
+              <li>Ouvrir ou modifier les comptes bancaires du club</li>
+              <li>Signer les contrats de travail des salariés</li>
+              <li>Représenter le club en cas de litige ou de médiation</li>
+              <li>Déposer les demandes de subventions (mairie, ANS…)</li>
+              <li>Assurer la relation avec la presse et les communications officielles</li>
+              <li>Convoquer une AG extraordinaire si nécessaire</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <hr class="fb-divider">
+
+        <!-- COMPÉTENCES -->
+        <div class="fb-section">
+          <div class="fb-section-title">Compétences &amp; qualités utiles</div>
+          <div class="comp-grid">
+            <div class="comp-item"><span class="ci-icon">🗣️</span> Aisance relationnelle</div>
+            <div class="comp-item"><span class="ci-icon">🧭</span> Sens stratégique</div>
+            <div class="comp-item"><span class="ci-icon">⚖️</span> Connaissance du droit associatif</div>
+            <div class="comp-item"><span class="ci-icon">🤝</span> Leadership et écoute</div>
+            <div class="comp-item"><span class="ci-icon">📅</span> Gestion des priorités</div>
+            <div class="comp-item"><span class="ci-icon">💬</span> Communication écrite &amp; orale</div>
+            <div class="comp-item"><span class="ci-icon">🏛️</span> Connaissance de la FFT</div>
+            <div class="comp-item"><span class="ci-icon">🔒</span> Discrétion &amp; intégrité</div>
+          </div>
+        </div>
+
+        <hr class="fb-divider">
+
+        <div class="fb-two-col">
+
+          <!-- TEMPS -->
+          <div class="fb-section">
+            <div class="fb-section-title">Investissement en temps</div>
+            <div class="time-bar">
+              <div class="time-num">4–8h</div>
+              <div class="time-label"><strong>par semaine en moyenne</strong>Davantage en début de saison, lors des tournois ou des AG.</div>
+            </div>
+            <div class="rhythm-row">
+              <div class="rhythm-item">
+                <div class="rhythm-period">Semaine</div>
+                <div class="rhythm-bar-wrap"><div class="rhythm-bar" style="width:65%"></div></div>
+              </div>
+              <div class="rhythm-item">
+                <div class="rhythm-period">Rentrée</div>
+                <div class="rhythm-bar-wrap"><div class="rhythm-bar" style="width:95%"></div></div>
+              </div>
+              <div class="rhythm-item">
+                <div class="rhythm-period">Été</div>
+                <div class="rhythm-bar-wrap"><div class="rhythm-bar" style="width:30%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RESPONSABILITÉS -->
+          <div class="fb-section">
+            <div class="fb-section-title">Niveau de responsabilité</div>
+            <div>
+              <span class="resp-badge resp-civile">⚖️ Responsabilité civile</span>
+              <span class="resp-badge resp-penale">⚠️ Responsabilité pénale possible</span>
+            </div>
+            <p style="font-size:0.83rem; color:var(--muted); margin-top:10px; line-height:1.5;">
+              En cas de manquement grave (non-respect des obligations légales, faute de gestion), la responsabilité personnelle du président peut être engagée. Une assurance responsabilité des dirigeants est fortement conseillée.
+            </p>
+          </div>
+
+        </div>
+
+        <hr class="fb-divider">
+
+        <!-- OUTILS -->
+        <div class="fb-section">
+          <div class="fb-section-title">Outils &amp; ressources clés</div>
+          <div class="outils-row">
+            <a href="https://adoc.app.fft.fr/adoc/" target="_blank" class="outil-chip">💻 ADOC</a>
+            <a href="https://tenup.fft.fr" target="_blank" class="outil-chip">🌍 Ten'Up</a>
+            <a href="https://guidedudirigeant.fft.fr" target="_blank" class="outil-chip">📖 Guide du dirigeant</a>
+            <a href="https://www.service-public.fr/associations" target="_blank" class="outil-chip">🏛️ Service-Public.fr</a>
+            <a href="https://www.lecompteasso.fr" target="_blank" class="outil-chip">💰 Le Compte Asso</a>
+            <a href="https://koteez.fft.fr" target="_blank" class="outil-chip">🧮 Koteez</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /president -->
+
+
+  <!-- ════════════════════════════════════════
+       FICHE TRÉSORIER
+  ════════════════════════════════════════ -->
+  <div id="fiche-tresorier" class="fiche-page tresorier">
+    <div class="fiche-banner">
+      <div class="fiche-banner-head tresorier" data-watermark="TRÉSORIER">
+        <div class="fbh-left">
+          <span class="fbh-icon">💰</span>
+          <div class="fbh-title">Trésorier(ère)</div>
+          <div class="fbh-subtitle">Gardien de la santé financière du club</div>
+        </div>
+        <div class="fbh-meta">
+          <span class="fbh-tag">Poste obligatoire</span>
+          <span class="fbh-tag">Bénévole</span>
+          <span class="fbh-tag">Élu en AG</span>
+        </div>
+      </div>
+
+      <div class="fiche-banner-body">
+
+        <div class="mission-box tresorier">
+          Le trésorier est le <strong>garant de la transparence financière</strong> du club. Il tient les comptes, gère les flux de trésorerie, prépare le budget et rend compte à l'AG. Sa rigueur protège l'association — et les autres dirigeants — de toute mise en cause pour mauvaise gestion.
+        </div>
+
+        <div class="fb-two-col">
+
+          <div class="fb-section">
+            <div class="fb-section-title">Missions principales</div>
+            <ul class="task-list">
+              <li>Tenir la comptabilité du club (recettes, dépenses, rapprochements bancaires)</li>
+              <li>Gérer les comptes bancaires et les signatures autorisées</li>
+              <li>Encaisser les cotisations et régler les fournisseurs</li>
+              <li>Préparer le budget prévisionnel annuel (avec Koteez)</li>
+              <li>Établir le bilan et le compte de résultat pour l'AG</li>
+              <li>Rédiger le rapport financier annuel présenté en AG</li>
+              <li>Assurer le suivi des subventions (versements, justificatifs)</li>
+            </ul>
+          </div>
+
+          <div class="fb-section">
+            <div class="fb-section-title">Missions ponctuelles</div>
+            <ul class="task-list">
+              <li>Établir les fiches de paie ou superviser le CEA (Chèque Emploi Associatif)</li>
+              <li>Déclarer les cotisations sociales (URSSAF, DSN mensuelle)</li>
+              <li>Préparer les dossiers de demande de subvention (ANS, mairie…)</li>
+              <li>Gérer les contrats d'assurance du club</li>
+              <li>Suivre les remboursements de frais aux bénévoles</li>
+              <li>Mettre à jour les tarifs dans ADOC / Koteez</li>
+              <li>Archiver les pièces comptables (minimum 10 ans)</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <hr class="fb-divider">
+
+        <div class="fb-section">
+          <div class="fb-section-title">Compétences &amp; qualités utiles</div>
+          <div class="comp-grid">
+            <div class="comp-item"><span class="ci-icon">🔢</span> Aisance avec les chiffres</div>
+            <div class="comp-item"><span class="ci-icon">📊</span> Maîtrise d'un tableur (Excel)</div>
+            <div class="comp-item"><span class="ci-icon">⚖️</span> Notions de comptabilité asso.</div>
+            <div class="comp-item"><span class="ci-icon">🔒</span> Rigueur &amp; discrétion</div>
+            <div class="comp-item"><span class="ci-icon">📅</span> Respect des échéances</div>
+            <div class="comp-item"><span class="ci-icon">💬</span> Pédagogie (expliquer les comptes)</div>
+            <div class="comp-item"><span class="ci-icon">🏛️</span> Connaissance droit fiscal asso.</div>
+            <div class="comp-item"><span class="ci-icon">📁</span> Organisation &amp; archivage</div>
+          </div>
+        </div>
+
+        <hr class="fb-divider">
+
+        <div class="fb-two-col">
+
+          <div class="fb-section">
+            <div class="fb-section-title">Investissement en temps</div>
+            <div class="time-bar">
+              <div class="time-num">3–6h</div>
+              <div class="time-label"><strong>par semaine en moyenne</strong>Pic en fin d'exercice (avril–juin) pour la clôture et la préparation de l'AG.</div>
+            </div>
+            <div class="rhythm-row">
+              <div class="rhythm-item">
+                <div class="rhythm-period">Semaine</div>
+                <div class="rhythm-bar-wrap"><div class="rhythm-bar" style="width:50%"></div></div>
+              </div>
+              <div class="rhythm-item">
+                <div class="rhythm-period">Clôture</div>
+                <div class="rhythm-bar-wrap"><div class="rhythm-bar" style="width:90%"></div></div>
+              </div>
+              <div class="rhythm-item">
+                <div class="rhythm-period">Été</div>
+                <div class="rhythm-bar-wrap"><div class="rhythm-bar" style="width:25%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fb-section">
+            <div class="fb-section-title">Niveau de responsabilité</div>
+            <div>
+              <span class="resp-badge resp-civile">⚖️ Responsabilité civile</span>
+              <span class="resp-badge resp-penale">⚠️ Abus de confiance possible</span>
+            </div>
+            <p style="font-size:0.83rem; color:var(--muted); margin-top:10px; line-height:1.5;">
+              Une mauvaise gestion financière ou un manque de transparence peut engager la responsabilité personnelle du trésorier. La séparation des fonctions (ordonnateur = président / payeur = trésorier) est une bonne pratique à respecter.
+            </p>
+          </div>
+
+        </div>
+
+        <hr class="fb-divider">
+
+        <div class="fb-section">
+          <div class="fb-section-title">Outils &amp; ressources clés</div>
+          <div class="outils-row">
+            <a href="https://koteez.fft.fr" target="_blank" class="outil-chip">🧮 Koteez</a>
+            <a href="https://www.cea.urssaf.fr" target="_blank" class="outil-chip">💼 Chèque Emploi Associatif</a>
+            <a href="https://adoc.app.fft.fr/adoc/" target="_blank" class="outil-chip">💻 ADOC</a>
+            <a href="https://www.cosmos.asso.fr" target="_blank" class="outil-chip">⚖️ CoSMoS (CCNS)</a>
+            <a href="https://www.afdas.com" target="_blank" class="outil-chip">🎓 AFDAS</a>
+            <a href="https://guidedudirigeant.fft.fr/administration/comptabilite-fiscalite/comptabilite-fiscalite/" target="_blank" class="outil-chip">📖 Comptabilité – Guide FFT</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /tresorier -->
+
+
+  <!-- ════════════════════════════════════════
+       FICHE SECRÉTAIRE
+  ════════════════════════════════════════ -->
+  <div id="fiche-secretaire" class="fiche-page secretaire">
+    <div class="fiche-banner">
+      <div class="fiche-banner-head secretaire" data-watermark="SECRÉTAIRE">
+        <div class="fbh-left">
+          <span class="fbh-icon">📝</span>
+          <div class="fbh-title">Secrétaire</div>
+          <div class="fbh-subtitle">Mémoire et courroie de transmission du club</div>
+        </div>
+        <div class="fbh-meta">
+          <span class="fbh-tag">Poste obligatoire</span>
+          <span class="fbh-tag">Bénévole</span>
+          <span class="fbh-tag">Élu en AG</span>
+        </div>
+      </div>
+
+      <div class="fiche-banner-body">
+
+        <div class="mission-box secretaire">
+          Le secrétaire est la <strong>mémoire institutionnelle</strong> du club et le garant de sa bonne administration. Il trace les décisions, tient les registres à jour, gère les déclarations officielles et assure la fluidité de l'information entre les membres du bureau, les élus et les adhérents.
+        </div>
+
+        <div class="fb-two-col">
+
+          <div class="fb-section">
+            <div class="fb-section-title">Missions principales</div>
+            <ul class="task-list">
+              <li>Rédiger les convocations aux réunions (bureau, CA, AG)</li>
+              <li>Préparer et diffuser les ordres du jour</li>
+              <li>Rédiger les procès-verbaux (PV) de toutes les réunions</li>
+              <li>Tenir le registre des membres à jour</li>
+              <li>Tenir le registre des délibérations (CA et AG)</li>
+              <li>Gérer les archives de l'association</li>
+              <li>Assurer la correspondance officielle du club</li>
+            </ul>
+          </div>
+
+          <div class="fb-section">
+            <div class="fb-section-title">Missions ponctuelles</div>
+            <ul class="task-list">
+              <li>Effectuer les déclarations légales en préfecture (changements de bureau, statuts)</li>
+              <li>Déclarer les changements à la Ligue régionale FFT</li>
+              <li>Préparer les dossiers d'affiliation annuelle à la FFT</li>
+              <li>Tenir à jour les affichages obligatoires (DAE, SACEM, tabac…)</li>
+              <li>Gérer les adhésions (dossiers d'inscription, règlement intérieur signé)</li>
+              <li>Assister le président dans les démarches administratives</li>
+              <li>Vérifier les assurances et leur renouvellement</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <hr class="fb-divider">
+
+        <div class="fb-section">
+          <div class="fb-section-title">Compétences &amp; qualités utiles</div>
+          <div class="comp-grid">
+            <div class="comp-item"><span class="ci-icon">✍️</span> Qualité rédactionnelle</div>
+            <div class="comp-item"><span class="ci-icon">📁</span> Sens de l'organisation</div>
+            <div class="comp-item"><span class="ci-icon">💻</span> Maîtrise des outils bureautiques</div>
+            <div class="comp-item"><span class="ci-icon">📅</span> Respect des délais</div>
+            <div class="comp-item"><span class="ci-icon">🔒</span> Discrétion &amp; confidentialité</div>
+            <div class="comp-item"><span class="ci-icon">👂</span> Écoute active en réunion</div>
+            <div class="comp-item"><span class="ci-icon">⚖️</span> Notions droit associatif</div>
+            <div class="comp-item"><span class="ci-icon">📬</span> Rigueur administrative</div>
+          </div>
+        </div>
+
+        <hr class="fb-divider">
+
+        <div class="fb-two-col">
+
+          <div class="fb-section">
+            <div class="fb-section-title">Investissement en temps</div>
+            <div class="time-bar">
+              <div class="time-num">2–4h</div>
+              <div class="time-label"><strong>par semaine en moyenne</strong>Pic lors des AG, des renouvellements d'affiliation et des déclarations légales.</div>
+            </div>
+            <div class="rhythm-row">
+              <div class="rhythm-item">
+                <div class="rhythm-period">Semaine</div>
+                <div class="rhythm-bar-wrap"><div class="rhythm-bar" style="width:40%"></div></div>
+              </div>
+              <div class="rhythm-item">
+                <div class="rhythm-period">AG / Affil.</div>
+                <div class="rhythm-bar-wrap"><div class="rhythm-bar" style="width:85%"></div></div>
+              </div>
+              <div class="rhythm-item">
+                <div class="rhythm-period">Été</div>
+                <div class="rhythm-bar-wrap"><div class="rhythm-bar" style="width:20%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fb-section">
+            <div class="fb-section-title">Niveau de responsabilité</div>
+            <div>
+              <span class="resp-badge resp-civile">⚖️ Responsabilité civile</span>
+              <span class="resp-badge resp-none">🔵 Pas de responsabilité pénale directe</span>
+            </div>
+            <p style="font-size:0.83rem; color:var(--muted); margin-top:10px; line-height:1.5;">
+              La responsabilité du secrétaire est principalement civile et liée à la bonne tenue des actes administratifs. Le défaut de déclaration en préfecture dans les délais légaux reste la principale source de mise en cause.
+            </p>
+          </div>
+
+        </div>
+
+        <hr class="fb-divider">
+
+        <!-- DOCUMENTS CLÉS -->
+        <div class="fb-section">
+          <div class="fb-section-title">Documents produits &amp; gérés</div>
+          <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:7px;">
+            <div class="comp-item"><span class="ci-icon">📄</span> Convocations AG / CA</div>
+            <div class="comp-item"><span class="ci-icon">📋</span> Ordres du jour</div>
+            <div class="comp-item"><span class="ci-icon">📒</span> Procès-verbaux</div>
+            <div class="comp-item"><span class="ci-icon">📒</span> Registre des membres</div>
+            <div class="comp-item"><span class="ci-icon">📒</span> Registre des délibérations</div>
+            <div class="comp-item"><span class="ci-icon">🧾</span> Formulaires préfecture</div>
+            <div class="comp-item"><span class="ci-icon">📬</span> Courriers officiels</div>
+            <div class="comp-item"><span class="ci-icon">📁</span> Archives du club</div>
+          </div>
+        </div>
+
+        <hr class="fb-divider">
+
+        <div class="fb-section">
+          <div class="fb-section-title">Outils &amp; ressources clés</div>
+          <div class="outils-row">
+            <a href="https://www.service-public.fr/associations" target="_blank" class="outil-chip">🏛️ Service-Public.fr</a>
+            <a href="https://adoc.app.fft.fr/adoc/" target="_blank" class="outil-chip">💻 ADOC</a>
+            <a href="https://guidedudirigeant.fft.fr/administration/creation-fonctionnement-2/le-registre-administratif/" target="_blank" class="outil-chip">📒 Registres – Guide FFT</a>
+            <a href="https://guidedudirigeant.fft.fr/administration/creation-fonctionnement-2/les-statuts-du-club/" target="_blank" class="outil-chip">📜 Statuts – Guide FFT</a>
+            <a href="https://guidedudirigeant.fft.fr/administration/creation-fonctionnement-2/affiliation-et-agrement/" target="_blank" class="outil-chip">🔗 Affiliation FFT</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /secretaire -->
+
+  <!-- NOTE BAS -->
+  <div class="callout callout-navy" style="margin: 28px 0 0;">
+    <span class="callout-label">📌 Comment utiliser ces fiches</span>
+    Ces fiches sont des <strong>modèles de référence</strong>. Adaptez-les à votre club, à vos statuts et à la personnalité de vos bénévoles. Une fiche de poste signée par le bénévole concerné permet de clarifier les attentes et d'éviter les malentendus — c'est aussi un outil de valorisation de leur engagement.
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <p><strong>Fiches de postes — bureau d'un club affilié FFT</strong> &nbsp;·&nbsp; Saison 2025–2026</p>
+  <p style="margin-top:8px; font-size:0.75rem;">À adapter à votre contexte local — <a href="index.html">← Retour à l'accueil du guide</a></p>
+</footer>
+
+<script>
+  function showTab(id, btn) {
+    // Hide all pages
+    document.querySelectorAll('.fiche-page').forEach(p => p.classList.remove('visible'));
+    // Deactivate all tabs
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    // Show target
+    document.getElementById('fiche-' + id).classList.add('visible');
+    btn.classList.add('active');
+    // Scroll to just below nav
+    document.querySelector('.tabs').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+
+</body>
+</html>
