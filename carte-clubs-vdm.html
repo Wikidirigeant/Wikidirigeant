@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clubs FFT – Val-de-Marne</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; display: flex; flex-direction: column; height: 100vh; }
+    .toolbar {
+      background: #1a2e4a; color: white; padding: 10px 20px;
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap; flex-shrink: 0;
+    }
+    .toolbar h1 { font-size: 0.95rem; font-weight: 700; white-space: nowrap; }
+    .toolbar h1 span { color: #c85a2a; }
+    .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 5px 13px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.3);
+      cursor: pointer; font-size: 0.8rem; font-weight: 600; background: rgba(255,255,255,0.1);
+      color: white; transition: all 0.18s;
+    }
+    .filter-btn:hover { background: rgba(255,255,255,0.22); }
+    .filter-btn.active { border-color: white; }
+    .filter-btn[data-f="Tous"].active    { background: #c85a2a; }
+    .filter-btn[data-f="Tennis"].active  { background: #2e7d32; }
+    .filter-btn[data-f="Terre battue"].active { background: #8B4513; }
+    .filter-btn[data-f="Padel"].active   { background: #1565c0; }
+    .filter-btn[data-f="Pickleball"].active { background: #6a1b9a; }
+    .filter-btn[data-f="Couverts"].active { background: #37474f; }
+    .count-bar { background: white; padding: 5px 16px; font-size: 0.78rem; color: #555; border-bottom: 1px solid #ddd; flex-shrink: 0; }
+    .count-bar strong { color: #1a2e4a; }
+    #map { flex: 1; }
+    .leaflet-popup-content-wrapper { border-radius: 8px; }
+    .popup-title { font-weight: 700; font-size: 0.9rem; color: #1a2e4a; margin-bottom: 7px; }
+    .popup-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 7px; }
+    .tag { padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; font-weight: 600; color: white; }
+    .tag-tennis { background: #2e7d32; }
+    .tag-padel { background: #1565c0; }
+    .tag-pickleball { background: #6a1b9a; }
+    .tag-tb { background: #8B4513; }
+    .tag-tba { background: #b07030; }
+    .popup-grid { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 0.76rem; }
+    .popup-grid .lbl { color: #888; white-space: nowrap; }
+    .popup-note { font-size: 0.68rem; color: #bbb; margin-top: 6px; font-style: italic; }
+  </style>
+</head>
+<body>
+<div class="toolbar">
+  <h1>🎾 Clubs FFT <span>Val-de-Marne</span></h1>
+  <div class="filters">
+    <button class="filter-btn active" data-f="Tous">Tous</button>
+    <button class="filter-btn" data-f="Tennis">🎾 Tennis</button>
+    <button class="filter-btn" data-f="Terre battue">🟫 Terre battue</button>
+    <button class="filter-btn" data-f="Padel">🏓 Padel</button>
+    <button class="filter-btn" data-f="Pickleball">🟣 Pickleball</button>
+    <button class="filter-btn" data-f="Couverts">🏠 Couverts</button>
+  </div>
+</div>
+<div class="count-bar" id="count-bar">Affichage de <strong>63</strong> clubs</div>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const clubs = [{"name": "TCAV", "lat": 48.808, "lng": 2.437, "precise": true, "tennis": 5, "beach": 0, "padel": 0, "pickleball": 0, "total": 5, "couverts": 1, "licencies": 218, "tb_couvert": 1, "tb_ext": 2, "tb_tradi": 3, "tb_artif": 0, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "J.S.A. MAISONS ALFORT", "lat": 48.808, "lng": 2.437, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 2, "licencies": 562, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "ALSACIENNE LORRAINE DE PARIS", "lat": 48.8425, "lng": 2.502, "precise": true, "tennis": 9, "beach": 0, "padel": 0, "pickleball": 0, "total": 9, "couverts": 4, "licencies": 7, "tb_couvert": 4, "tb_ext": 5, "tb_tradi": 9, "tb_artif": 0, "has_tb": true, "full_tb": "full tb", "disciplines": ["Tennis"]}, {"name": "TENNIS DE SUCY EN BRIE", "lat": 48.77, "lng": 2.527, "precise": true, "tennis": 11, "beach": 0, "padel": 0, "pickleball": 0, "total": 11, "couverts": 5, "licencies": 872, "tb_couvert": 0, "tb_ext": 4, "tb_tradi": 0, "tb_artif": 4, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "RED STAR CLUB DE CHAMPIGNY", "lat": 48.817, "lng": 2.512, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 4, "licencies": 520, "tb_couvert": 2, "tb_ext": 0, "tb_tradi": 2, "tb_artif": 0, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC PERIGNY", "lat": 48.7, "lng": 2.55, "precise": true, "tennis": 3, "beach": 0, "padel": 0, "pickleball": 0, "total": 3, "couverts": 0, "licencies": 45, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TENNIS CLUB D'IVRY", "lat": 48.811, "lng": 2.384, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 2, "licencies": 652, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "ASCE AEROPORT DE PARIS", "lat": 48.51, "lng": 2.45, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 2, "licencies": 26, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TENNIS CLUB DE SAINT MAUR", "lat": 48.8, "lng": 2.49, "precise": true, "tennis": 14, "beach": 0, "padel": 0, "pickleball": 0, "total": 14, "couverts": 6, "licencies": 528, "tb_couvert": 6, "tb_ext": 7, "tb_tradi": 13, "tb_artif": 0, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "COSMA ARCUEIL", "lat": 48.806, "lng": 2.335, "precise": true, "tennis": 4, "beach": 0, "padel": 0, "pickleball": 0, "total": 4, "couverts": 2, "licencies": 152, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC VILLECRESNES", "lat": 48.72, "lng": 2.534, "precise": true, "tennis": 8, "beach": 0, "padel": 0, "pickleball": 0, "total": 8, "couverts": 4, "licencies": 364, "tb_couvert": 0, "tb_ext": 1, "tb_tradi": 0, "tb_artif": 1, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC MAROLLES", "lat": 48.732, "lng": 2.553, "precise": true, "tennis": 7, "beach": 0, "padel": 0, "pickleball": 0, "total": 7, "couverts": 3, "licencies": 159, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "ES VITRY", "lat": 48.787, "lng": 2.405, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 2, "licencies": 439, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "AMICALE TENNIS DE SAINT MAUR", "lat": 48.8, "lng": 2.49, "precise": true, "tennis": 2, "beach": 0, "padel": 0, "pickleball": 0, "total": 2, "couverts": 0, "licencies": 74, "tb_couvert": 0, "tb_ext": 2, "tb_tradi": 1, "tb_artif": 1, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC ROSERAIE", "lat": 48.78, "lng": 2.34, "precise": true, "tennis": 3, "beach": 0, "padel": 0, "pickleball": 0, "total": 3, "couverts": 0, "licencies": 26, "tb_couvert": 0, "tb_ext": 3, "tb_tradi": 3, "tb_artif": 0, "has_tb": true, "full_tb": "full tb", "disciplines": ["Tennis"]}, {"name": "TC MUNICIPAL DE RUNGIS", "lat": 48.746, "lng": 2.35, "precise": true, "tennis": 5, "beach": 0, "padel": 0, "pickleball": 0, "total": 5, "couverts": 5, "licencies": 251, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC DE LA FERME DE MANDRES", "lat": 48.705, "lng": 2.539, "precise": true, "tennis": 3, "beach": 0, "padel": 2, "pickleball": 0, "total": 5, "couverts": 0, "licencies": 161, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis", "Padel"]}, {"name": "TC BRY", "lat": 48.838, "lng": 2.525, "precise": true, "tennis": 9, "beach": 0, "padel": 0, "pickleball": 0, "total": 9, "couverts": 4, "licencies": 613, "tb_couvert": 3, "tb_ext": 3, "tb_tradi": 6, "tb_artif": 0, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC SANTENY", "lat": 48.725, "lng": 2.572, "precise": true, "tennis": 3, "beach": 0, "padel": 0, "pickleball": 0, "total": 3, "couverts": 1, "licencies": 257, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC THIAIS BELLE EPINE", "lat": 48.765, "lng": 2.386, "precise": true, "tennis": 7, "beach": 0, "padel": 0, "pickleball": 0, "total": 7, "couverts": 4, "licencies": 509, "tb_couvert": 4, "tb_ext": 1, "tb_tradi": 5, "tb_artif": 0, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "US CRETEIL", "lat": 48.79, "lng": 2.455, "precise": true, "tennis": 14, "beach": 0, "padel": 0, "pickleball": 0, "total": 14, "couverts": 8, "licencies": 796, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "US FONTENAY", "lat": 48.851, "lng": 2.474, "precise": true, "tennis": 8, "beach": 0, "padel": 0, "pickleball": 0, "total": 8, "couverts": 6, "licencies": 850, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "A.A.S. FRESNES", "lat": 48.757, "lng": 2.322, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 3, "licencies": 429, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "C.A.L. TC L'HAY LES ROSES", "lat": 48.779, "lng": 2.337, "precise": true, "tennis": 9, "beach": 0, "padel": 0, "pickleball": 0, "total": 9, "couverts": 4, "licencies": 660, "tb_couvert": 0, "tb_ext": 2, "tb_tradi": 0, "tb_artif": 2, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC LA VARENNE", "lat": 48.789, "lng": 2.506, "precise": true, "tennis": 3, "beach": 0, "padel": 0, "pickleball": 0, "total": 3, "couverts": 3, "licencies": 362, "tb_couvert": 3, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 3, "has_tb": true, "full_tb": "full tba", "disciplines": ["Tennis"]}, {"name": "TC LIMEIL BREVANNES", "lat": 48.747, "lng": 2.486, "precise": true, "tennis": 4, "beach": 0, "padel": 0, "pickleball": 0, "total": 4, "couverts": 1, "licencies": 154, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "MAISONS ALFORT TC", "lat": 48.808, "lng": 2.437, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 6, "licencies": 780, "tb_couvert": 6, "tb_ext": 0, "tb_tradi": 4, "tb_artif": 2, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "C.S. MARNE", "lat": 48.817, "lng": 2.512, "precise": true, "tennis": 5, "beach": 0, "padel": 0, "pickleball": 0, "total": 5, "couverts": 3, "licencies": 478, "tb_couvert": 3, "tb_ext": 2, "tb_tradi": 5, "tb_artif": 0, "has_tb": true, "full_tb": "full tb", "disciplines": ["Tennis"]}, {"name": "TC NOGENT", "lat": 48.836, "lng": 2.485, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 6, "licencies": 932, "tb_couvert": 5, "tb_ext": 0, "tb_tradi": 4, "tb_artif": 1, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "AS ORLY", "lat": 48.742, "lng": 2.4, "precise": true, "tennis": 4, "beach": 0, "padel": 0, "pickleball": 0, "total": 4, "couverts": 0, "licencies": 164, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC PERREUX", "lat": 48.842, "lng": 2.506, "precise": true, "tennis": 9, "beach": 0, "padel": 0, "pickleball": 0, "total": 9, "couverts": 6, "licencies": 851, "tb_couvert": 6, "tb_ext": 1, "tb_tradi": 7, "tb_artif": 0, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TENNIS CLUB DE CHARENTON", "lat": 48.821, "lng": 2.412, "precise": true, "tennis": 5, "beach": 0, "padel": 0, "pickleball": 0, "total": 5, "couverts": 0, "licencies": 721, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "LAWN TENNIS DE SAINT MANDE", "lat": 48.843, "lng": 2.417, "precise": true, "tennis": 4, "beach": 0, "padel": 0, "pickleball": 0, "total": 4, "couverts": 3, "licencies": 798, "tb_couvert": 3, "tb_ext": 1, "tb_tradi": 4, "tb_artif": 0, "has_tb": true, "full_tb": "full tb", "disciplines": ["Tennis"]}, {"name": "V.G.A. SAINT MAUR", "lat": 48.804, "lng": 2.485, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 6, "licencies": 1087, "tb_couvert": 6, "tb_ext": 0, "tb_tradi": 6, "tb_artif": 0, "has_tb": true, "full_tb": "full tb", "disciplines": ["Tennis"]}, {"name": "TC THIAIS", "lat": 48.763, "lng": 2.392, "precise": true, "tennis": 5, "beach": 0, "padel": 0, "pickleball": 0, "total": 5, "couverts": 3, "licencies": 304, "tb_couvert": 3, "tb_ext": 0, "tb_tradi": 3, "tb_artif": 0, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "US VILLEJUIF", "lat": 48.793, "lng": 2.363, "precise": true, "tennis": 5, "beach": 0, "padel": 0, "pickleball": 0, "total": 5, "couverts": 5, "licencies": 477, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "ELAN CHEVILLY LARUE", "lat": 48.764, "lng": 2.351, "precise": true, "tennis": 10, "beach": 0, "padel": 0, "pickleball": 0, "total": 10, "couverts": 5, "licencies": 204, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "BOISSY TC", "lat": 48.751, "lng": 2.513, "precise": true, "tennis": 4, "beach": 0, "padel": 0, "pickleball": 0, "total": 4, "couverts": 2, "licencies": 110, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "US ORMESSON", "lat": 48.786, "lng": 2.538, "precise": true, "tennis": 4, "beach": 0, "padel": 0, "pickleball": 0, "total": 4, "couverts": 2, "licencies": 210, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "US ALFORTVILLE", "lat": 48.805, "lng": 2.42, "precise": true, "tennis": 5, "beach": 0, "padel": 0, "pickleball": 0, "total": 5, "couverts": 3, "licencies": 431, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "CT DU PLESSIS TREVISE", "lat": 48.808, "lng": 2.574, "precise": true, "tennis": 11, "beach": 0, "padel": 0, "pickleball": 0, "total": 11, "couverts": 4, "licencies": 588, "tb_couvert": 0, "tb_ext": 2, "tb_tradi": 2, "tb_artif": 0, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TENNIS CLUB DE CHOISY LE ROI", "lat": 48.764, "lng": 2.408, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 2, "licencies": 311, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "PASSING CLUB MAISONS ALFORT", "lat": 48.808, "lng": 2.437, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 3, "licencies": 500, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "VILLIERS TENNIS CLUB", "lat": 48.829, "lng": 2.548, "precise": true, "tennis": 8, "beach": 0, "padel": 0, "pickleball": 0, "total": 8, "couverts": 4, "licencies": 516, "tb_couvert": 0, "tb_ext": 4, "tb_tradi": 0, "tb_artif": 4, "has_tb": true, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "LES FAISANS DU PARC DE VILLENEUVE LE ROI", "lat": 48.73, "lng": 2.42, "precise": true, "tennis": 2, "beach": 0, "padel": 0, "pickleball": 0, "total": 2, "couverts": 0, "licencies": 77, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC CHEMINOTS ET VILLENEUVOIS", "lat": 48.732, "lng": 2.446, "precise": true, "tennis": 8, "beach": 0, "padel": 0, "pickleball": 0, "total": 8, "couverts": 2, "licencies": 339, "tb_couvert": 2, "tb_ext": 6, "tb_tradi": 8, "tb_artif": 0, "has_tb": true, "full_tb": "full tb", "disciplines": ["Tennis"]}, {"name": "TENNIS CLUB DE BONNEUIL", "lat": 48.773, "lng": 2.488, "precise": true, "tennis": 4, "beach": 0, "padel": 0, "pickleball": 0, "total": 4, "couverts": 2, "licencies": 231, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "GAZELEC CMCAS 94", "lat": 48.77, "lng": 2.35, "precise": true, "tennis": 2, "beach": 0, "padel": 0, "pickleball": 0, "total": 2, "couverts": 0, "licencies": 18, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TENNIS CLUB DE NOISEAU", "lat": 48.776, "lng": 2.549, "precise": true, "tennis": 4, "beach": 0, "padel": 0, "pickleball": 0, "total": 4, "couverts": 2, "licencies": 228, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "CLUB ATHLETIQUE DE VITRY", "lat": 48.787, "lng": 2.403, "precise": true, "tennis": 6, "beach": 0, "padel": 0, "pickleball": 0, "total": 6, "couverts": 2, "licencies": 160, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TENNIS EVOLUTIF DU TREMBLAY", "lat": 48.951, "lng": 2.572, "precise": true, "tennis": 2, "beach": 0, "padel": 0, "pickleball": 0, "total": 2, "couverts": 0, "licencies": 177, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "Asso Perso Inter Hospitalier de Saint Maurice", "lat": 48.815, "lng": 2.46, "precise": true, "tennis": 1, "beach": 0, "padel": 0, "pickleball": 0, "total": 1, "couverts": 0, "licencies": 109, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "SPORT HORIZON", "lat": 48.79, "lng": 2.47, "precise": true, "tennis": 0, "beach": 0, "padel": 12, "pickleball": 0, "total": 12, "couverts": 12, "licencies": 0, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "", "disciplines": ["Padel"]}, {"name": "SPORTING TENNIS CACHAN", "lat": 48.791, "lng": 2.331, "precise": true, "tennis": 5, "beach": 0, "padel": 0, "pickleball": 0, "total": 5, "couverts": 3, "licencies": 414, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "TC ST MAURICE", "lat": 48.815, "lng": 2.46, "precise": true, "tennis": 4, "beach": 0, "padel": 0, "pickleball": 0, "total": 4, "couverts": 0, "licencies": 171, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "CS LEDOUX EBTP", "lat": 48.847, "lng": 2.439, "precise": true, "tennis": 0, "beach": 0, "padel": 0, "pickleball": 0, "total": 0, "couverts": 0, "licencies": 6, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": true, "full_tb": "full tb", "disciplines": []}, {"name": "TENNIS CLUB DE GENTILLY", "lat": 48.816, "lng": 2.341, "precise": true, "tennis": 2, "beach": 0, "padel": 0, "pickleball": 0, "total": 2, "couverts": 1, "licencies": 212, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "CSA KREMLIN BICETRE TENNIS", "lat": 48.806485, "lng": 2.358719, "precise": true, "tennis": 0, "beach": 0, "padel": 0, "pickleball": 0, "total": 0, "couverts": 0, "licencies": 5, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": true, "full_tb": "full tb", "disciplines": []}, {"name": "CHENNEVIERES TENNIS CLUB", "lat": 48.793, "lng": 2.535, "precise": true, "tennis": 3, "beach": 0, "padel": 0, "pickleball": 0, "total": 3, "couverts": 1, "licencies": 334, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}, {"name": "COUNTRY SPORTS CLUB ASSOCIATION", "lat": 48.8, "lng": 2.45, "precise": true, "tennis": 10, "beach": 0, "padel": 2, "pickleball": 0, "total": 12, "couverts": 7, "licencies": 785, "tb_couvert": 5, "tb_ext": 5, "tb_tradi": 10, "tb_artif": 0, "has_tb": true, "full_tb": "full tb", "disciplines": ["Tennis", "Padel"]}, {"name": "Pickleball Club Vincennes", "lat": 48.847, "lng": 2.438, "precise": true, "tennis": 0, "beach": 0, "padel": 0, "pickleball": 1, "total": 0, "couverts": 0, "licencies": 0, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "", "disciplines": ["Pickleball"]}, {"name": "LE PERREUX PICKLEBALL CLUB", "lat": 48.842, "lng": 2.506, "precise": true, "tennis": 0, "beach": 0, "padel": 0, "pickleball": 1, "total": 0, "couverts": 0, "licencies": 0, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "", "disciplines": ["Pickleball"]}, {"name": "TC LA QUEUE EN BRIE", "lat": 48.778, "lng": 2.585, "precise": true, "tennis": 4, "beach": 0, "padel": 0, "pickleball": 0, "total": 4, "couverts": 2, "licencies": 162, "tb_couvert": 0, "tb_ext": 0, "tb_tradi": 0, "tb_artif": 0, "has_tb": false, "full_tb": "Mixte", "disciplines": ["Tennis"]}];
+
+const map = L.map('map').setView([48.783, 2.455], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors', maxZoom: 18
+}).addTo(map);
+
+function makeIcon(c, highlighted) {
+  let color = '#2e7d32';
+  if (c.padel > 0 && c.tennis === 0 && !c.pickleball) color = '#1565c0';
+  else if (c.pickleball && c.tennis === 0 && c.padel === 0) color = '#6a1b9a';
+  else if (c.padel > 0 && c.tennis > 0) color = '#0e7a7a';
+  const sz = Math.min(30, 16 + (c.total || 1) * 1.1);
+  const border = highlighted ? '3px solid #FFD700' : '2.5px solid white';
+  return L.divIcon({
+    className: '',
+    html: '<div style="width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:'+color+';border:'+border+';box-shadow:0 2px 6px rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;color:white;font-size:'+Math.max(9,Math.round(sz*0.4))+'px;font-weight:700">'+(c.total||'?')+'</div>',
+    iconSize: [sz, sz], iconAnchor: [sz/2, sz/2]
+  });
+}
+
+function tbTag(c) {
+  if (!c.has_tb) return '';
+  const tradi = c.tb_tradi > 0;
+  const artif = c.tb_artif > 0 && !tradi;
+  if (tradi && c.tb_artif > 0) return '<span class="tag tag-tb">TB traditionnelle + artificielle</span>';
+  if (tradi) return '<span class="tag tag-tb">Terre battue traditionnelle</span>';
+  if (artif) return '<span class="tag tag-tba">Terre battue artificielle</span>';
+  return '<span class="tag tag-tb">Terre battue</span>';
+}
+
+function popupHTML(c) {
+  const tags = c.disciplines.map(function(d) {
+    const cls = d==='Tennis'?'tennis':d==='Padel'?'padel':'pickleball';
+    return '<span class="tag tag-'+cls+'">'+d+'</span>';
+  }).join('') + tbTag(c);
+
+  let rows = '';
+  if (c.total)     rows += '<span class="lbl">Total terrains</span><span>'+c.total+'</span>';
+  if (c.couverts)  rows += '<span class="lbl">Couverts</span><span>'+c.couverts+'</span>';
+  if (c.tennis)    rows += '<span class="lbl">Tennis</span><span>'+c.tennis+'</span>';
+  if (c.tb_tradi)  rows += '<span class="lbl">TB traditionnelle</span><span>'+c.tb_tradi+'</span>';
+  if (c.tb_artif)  rows += '<span class="lbl">TB artificielle</span><span>'+c.tb_artif+'</span>';
+  if (c.tb_couvert)rows += '<span class="lbl">TB couvertes</span><span>'+c.tb_couvert+'</span>';
+  if (c.tb_ext)    rows += '<span class="lbl">TB extérieures</span><span>'+c.tb_ext+'</span>';
+  if (c.padel)     rows += '<span class="lbl">Padel</span><span>'+c.padel+'</span>';
+  if (c.licencies) rows += '<span class="lbl">Licenciés</span><span>'+c.licencies+'</span>';
+
+  return '<div class="popup-title">'+c.name+'</div>'+
+    '<div class="popup-tags">'+(tags||'<em style="color:#aaa;font-size:.72rem">Non renseigné</em>')+'</div>'+
+    '<div class="popup-grid">'+rows+'</div>'+
+    '<div class="popup-note">⚠️ Positions approximatives par commune</div>';
+}
+
+const markers = clubs.map(function(c) {
+  const m = L.marker([c.lat, c.lng], { icon: makeIcon(c, false) })
+    .bindPopup(popupHTML(c), { maxWidth: 280 });
+  m.clubData = c;
+  m.addTo(map);
+  return m;
+});
+
+function applyFilter(f) {
+  let count = 0;
+  markers.forEach(function(m) {
+    const c = m.clubData;
+    const show = f==='Tous' ? true
+      : f==='Tennis'      ? c.tennis > 0
+      : f==='Terre battue'? c.has_tb
+      : f==='Padel'       ? c.padel > 0
+      : f==='Pickleball'  ? c.pickleball > 0
+      : f==='Couverts'    ? c.couverts > 0 : false;
+    const hl = f==='Terre battue' && c.has_tb;
+    m.setIcon(makeIcon(c, hl));
+    if (show) { m.addTo(map); count++; } else { m.remove(); }
+  });
+  document.getElementById('count-bar').innerHTML =
+    'Affichage de <strong>'+count+'</strong> club'+(count>1?'s':'')+
+    (f!=='Tous' ? ' &nbsp;·&nbsp; filtre : <strong>'+f+'</strong>' : '');
+}
+
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    applyFilter(btn.dataset.f);
+  });
+});
+
+// Legend
+const legend = L.control({ position: 'bottomright' });
+legend.onAdd = function() {
+  const d = L.DomUtil.create('div');
+  d.style.cssText = 'background:white;padding:10px 14px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.12);font-size:0.76rem;line-height:1.9';
+  function dot(col) { return '<span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:'+col+';margin-right:6px;vertical-align:middle"></span>'; }
+  d.innerHTML = '<strong style="display:block;margin-bottom:4px;color:#1a2e4a">Disciplines</strong>'+
+    '<div>'+dot('#2e7d32')+'Tennis</div>'+
+    '<div>'+dot('#1565c0')+'Padel</div>'+
+    '<div>'+dot('#0e7a7a')+'Tennis + Padel</div>'+
+    '<div>'+dot('#6a1b9a')+'Pickleball</div>'+
+    '<hr style="margin:6px 0;border-color:#eee">'+
+    '<div><span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:#2e7d32;border:2px solid gold;margin-right:6px;vertical-align:middle"></span>Terre battue</div>'+
+    '<div style="margin-top:5px;color:#999;font-style:italic">Chiffre = nb terrains</div>';
+  return d;
+};
+legend.addTo(map);
+</script>
+</body>
+</html>
