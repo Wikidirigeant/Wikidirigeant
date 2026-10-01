@@ -65,6 +65,19 @@ body {
   line-height: 1.1;
 }
 
+.nav-partner {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding: 0 20px;
+  flex-shrink: 0;
+}
+.nav-partner img {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
 .nav-links {
   display: flex;
   list-style: none;
