@@ -33,13 +33,19 @@ body {
 }
 .nav-inner {
   display: flex;
-  overflow-x: auto;
-  scrollbar-width: none;
   max-width: 980px;
   margin: 0 auto;
   align-items: center;
 }
-.nav-inner::-webkit-scrollbar { display: none; }
+.nav-scroll {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  min-width: 0;
+  flex: 1;
+}
+.nav-scroll::-webkit-scrollbar { display: none; }
 
 .nav-logo {
   display: flex;
