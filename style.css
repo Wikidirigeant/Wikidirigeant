@@ -67,13 +67,14 @@ body {
 
 .nav-partner {
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  align-self: stretch;
   margin-left: auto;
   padding: 0 20px;
   flex-shrink: 0;
 }
 .nav-partner img {
-  height: 16px;
+  height: 100%;
   width: auto;
   display: block;
 }
