@@ -22,6 +22,7 @@
       <li><a href="adoc.html">ADOC</a></li>
       <li><a href="pratiques.html">Autres pratiques</a></li>
       <li><a href="pensez-y.html">Pensez-y !</a></li>
+      <li><a href="recherche.html">🔎 Recherche</a></li>
     </ul>
     <a href="generalites.html" class="nav-partner" title="Comité du Val-de-Marne de Tennis">
       <img src="images/logo-comite-val-de-marne.png" alt="Comité du Val-de-Marne de Tennis">
@@ -45,7 +46,7 @@
   <div class="sec-header">
     <div class="sec-num">—</div>
     <div class="sec-title">
-      <h2>Situation de départ</h2>
+      <h2 id="situation-de-depart">Situation de départ</h2>
       <p>Par où commencer ?</p>
     </div>
   </div>
@@ -139,7 +140,7 @@
 <div class="accordion">
 
   <!-- 1 -->
-  <div class="acc-item">
+  <div class="acc-item" id="acc-prendre-une-photo-de-la-situation-existante">
     <button class="acc-trigger" onclick="toggleAcc(this)">
       <span class="acc-icon">📸</span>
       <span class="acc-label">Prendre une photo de la situation existante</span>
@@ -156,7 +157,7 @@
   </div>
 
   <!-- 2 -->
-  <div class="acc-item">
+  <div class="acc-item" id="acc-dettes-et-engagements-caches">
     <button class="acc-trigger" onclick="toggleAcc(this)">
       <span class="acc-icon">💸</span>
       <span class="acc-label">Dettes et engagements cachés</span>
@@ -175,7 +176,7 @@
   </div>
 
   <!-- 3 -->
-  <div class="acc-item">
+  <div class="acc-item" id="acc-flux-recurrents-a-cartographier">
     <button class="acc-trigger" onclick="toggleAcc(this)">
       <span class="acc-icon">📅</span>
       <span class="acc-label">Flux récurrents à cartographier</span>
@@ -191,7 +192,7 @@
   </div>
 
   <!-- 4 -->
-  <div class="acc-item">
+  <div class="acc-item" id="acc-outils-et-organisation">
     <button class="acc-trigger" onclick="toggleAcc(this)">
       <span class="acc-icon">📂</span>
       <span class="acc-label">Outils et organisation</span>
@@ -208,7 +209,7 @@
   </div>
 
   <!-- 5 -->
-  <div class="acc-item">
+  <div class="acc-item" id="acc-relations-externes">
     <button class="acc-trigger" onclick="toggleAcc(this)">
       <span class="acc-icon">🤝</span>
       <span class="acc-label">Relations externes</span>
@@ -230,7 +231,7 @@
   <div class="sec-header">
     <div class="sec-num">01</div>
     <div class="sec-title">
-      <h2>Koteez : l'outil qui change tout</h2>
+      <h2 id="koteez-l-outil-qui-change-tout">Koteez : l'outil qui change tout</h2>
       <p>Définir une politique tarifaire équilibrée, en quelques clics.</p>
     </div>
   </div>
@@ -248,7 +249,7 @@
   <div class="sec-header">
     <div class="sec-num">02</div>
     <div class="sec-title">
-      <h2>Le bilan d'une association sportive</h2>
+      <h2 id="le-bilan-d-une-association-sportive">Le bilan d'une association sportive</h2>
       <p>Les deux documents comptables à produire chaque année pour l'AG.</p>
     </div>
   </div>
@@ -330,7 +331,7 @@
   <div class="sec-header">
     <div class="sec-num">03</div>
     <div class="sec-title">
-      <h2>Rédiger une fiche de paie</h2>
+      <h2 id="rediger-une-fiche-de-paie">Rédiger une fiche de paie</h2>
       <p>Les mentions légales obligatoires — dans l'ordre.</p>
     </div>
   </div>
@@ -368,7 +369,7 @@
   <div class="sec-header">
     <div class="sec-num">04</div>
     <div class="sec-title">
-      <h2>Aides financières disponibles</h2>
+      <h2 id="aides-financieres-disponibles">Aides financières disponibles</h2>
       <p>Pour un club bien informé.</p>
     </div>
   </div>
@@ -417,7 +418,7 @@
   <div class="sec-header">
     <div class="sec-num">05</div>
     <div class="sec-title">
-      <h2>Décrocher un sponsor : mode d'emploi</h2>
+      <h2 id="decrocher-un-sponsor-mode-d-emploi">Décrocher un sponsor : mode d'emploi</h2>
       <p>Une ressource sous-exploitée par la plupart des clubs — même les petits.</p>
     </div>
   </div>
@@ -488,6 +489,15 @@
 function toggleAcc(trigger) {
   const item = trigger.closest('.acc-item');
   item.classList.toggle('open');
+}
+if (location.hash.indexOf('#acc-') === 0) {
+  const target = document.getElementById(location.hash.slice(1));
+  if (target) {
+    target.classList.add('open');
+    window.addEventListener('DOMContentLoaded', () => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
 }
 </script>
 </body>

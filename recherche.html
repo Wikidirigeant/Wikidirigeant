@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recherche – Guide du Dirigeant FFT</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .search-box {
+      max-width: 620px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      padding: 15px 18px 15px 46px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2);
+    }
+    .search-input::placeholder { color: rgba(255,255,255,0.45); }
+    .search-input:focus { box-shadow: inset 0 0 0 2px var(--clay); background: rgba(255,255,255,0.14); }
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .search-meta {
+      max-width: 620px;
+      margin: 14px auto 0;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.02em;
+    }
+
+    .search-results { margin: 8px 0 60px; }
+    .result-count {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+      letter-spacing: 0.02em;
+    }
+    .result-card {
+      display: block;
+      background: white;
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      text-decoration: none;
+      color: var(--navy);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      border-left: 3px solid var(--clay);
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .result-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-1px); }
+    .result-page {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 5px;
+    }
+    .result-heading {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .result-snippet {
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .result-snippet mark {
+      background: var(--clay-light);
+      color: var(--clay);
+      font-weight: 600;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+    .search-empty, .search-idle {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--muted);
+    }
+    .search-empty .se-icon, .search-idle .se-icon { font-size: 2rem; margin-bottom: 10px; }
+    .search-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .search-chip {
+      background: white;
+      border: 1px solid var(--rule);
+      color: var(--navy);
+      font-size: 0.78rem;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .search-chip:hover { border-color: var(--clay); color: var(--clay); }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-ball">🎾</div>
+      <div class="nav-logo-text">Guide<br>Dirigeant</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="generalites.html">Généralités</a></li>
+      <li><a href="rh.html">RH</a></li>
+      <li><a href="finances.html">Finances</a></li>
+      <li><a href="adoc.html">ADOC</a></li>
+      <li><a href="pratiques.html">Autres pratiques</a></li>
+      <li><a href="pensez-y.html">Pensez-y !</a></li>
+      <li><a href="recherche.html" class="active">🔎 Recherche</a></li>
+    </ul>
+    <a href="generalites.html" class="nav-partner" title="Comité du Val-de-Marne de Tennis">
+      <img src="images/logo-comite-val-de-marne.png" alt="Comité du Val-de-Marne de Tennis">
+    </a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="badge-row">
+      <span class="badge">Recherche</span>
+      <span class="badge badge-outline">Tout le guide</span>
+    </div>
+    <h1>Trouvez une <span>info</span> dans le guide</h1>
+    <p class="sub">Recherchez dans l'ensemble des chapitres — généralités, RH, finances, ADOC, pratiques, gouvernance, charte photos, fiches de postes.</p>
+    <div class="search-box" style="margin-top:28px;">
+      <span class="search-icon">🔎</span>
+      <input type="text" id="search-input" class="search-input" placeholder="Ex. partenariat, licence, trésorier, RGPD…" autocomplete="off">
+    </div>
+    <p class="search-meta" id="search-meta">Chargement de l'index…</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="search-results" id="search-results">
+    <div class="search-idle">
+      <div class="se-icon">🔎</div>
+      <p>Tapez un mot-clé ci-dessus pour chercher dans tout le guide.</p>
+      <div class="search-suggestions">
+        <button class="search-chip" data-q="partenariat">partenariat</button>
+        <button class="search-chip" data-q="licence">licence</button>
+        <button class="search-chip" data-q="trésorier">trésorier</button>
+        <button class="search-chip" data-q="RGPD">RGPD</button>
+        <button class="search-chip" data-q="assemblée générale">assemblée générale</button>
+        <button class="search-chip" data-q="sponsor">sponsor</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><strong>Guide du dirigeant de club affilié FFT</strong> &nbsp;·&nbsp; Tennis · Padel · Beach Tennis · Pickleball &nbsp;·&nbsp; Saison 2026–2027</p>
+  <p style="margin-top:8px; font-size:0.75rem;"><a href="index.html">← Retour à l'accueil</a></p>
+</footer>
+
+<script>
+(function () {
+  var input = document.getElementById('search-input');
+  var resultsEl = document.getElementById('search-results');
+  var metaEl = document.getElementById('search-meta');
+  var index = [];
+
+  function normalize(str) {
+    return (str || '')
+      .toString()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .toLowerCase();
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function highlight(text, rawQuery) {
+    var escaped = escapeHtml(text);
+    var terms = rawQuery.trim().split(/\s+/).filter(Boolean);
+    terms.forEach(function (term) {
+      var safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      var re = new RegExp('(' + safeTerm + ')', 'gi');
+      escaped = escaped.replace(re, '<mark>$1</mark>');
+    });
+    return escaped;
+  }
+
+  function snippetAround(text, normText, normQuery) {
+    var pos = normText.indexOf(normQuery.split(/\s+/)[0]);
+    var radius = 110;
+    if (pos === -1) {
+      return text.slice(0, 220) + (text.length > 220 ? '…' : '');
+    }
+    var start = Math.max(0, pos - radius);
+    var end = Math.min(text.length, pos + radius);
+    var snippet = text.slice(start, end);
+    return (start > 0 ? '…' : '') + snippet + (end < text.length ? '…' : '');
+  }
+
+  function renderIdle() {
+    resultsEl.innerHTML =
+      '<div class="search-idle">' +
+      '<div class="se-icon">🔎</div>' +
+      '<p>Tapez un mot-clé ci-dessus pour chercher dans tout le guide.</p>' +
+      '<div class="search-suggestions">' +
+      ['partenariat', 'licence', 'trésorier', 'RGPD', 'assemblée générale', 'sponsor']
+        .map(function (s) { return '<button class="search-chip" data-q="' + s + '">' + s + '</button>'; })
+        .join('') +
+      '</div></div>';
+    bindChips();
+  }
+
+  function renderEmpty(query) {
+    resultsEl.innerHTML =
+      '<div class="search-empty">' +
+      '<div class="se-icon">🤷</div>' +
+      '<p>Aucun résultat pour « ' + escapeHtml(query) + ' ».</p>' +
+      '<p style="font-size:0.8rem;margin-top:6px;">Essayez un autre mot-clé, ou un terme plus général.</p>' +
+      '</div>';
+  }
+
+  function bindChips() {
+    document.querySelectorAll('.search-chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        input.value = chip.getAttribute('data-q');
+        input.dispatchEvent(new Event('input'));
+        input.focus();
+      });
+    });
+  }
+
+  function search(rawQuery) {
+    var query = rawQuery.trim();
+    if (!query) { renderIdle(); return; }
+
+    var normQuery = normalize(query);
+    var terms = normQuery.split(/\s+/).filter(Boolean);
+
+    var scored = index.map(function (chunk) {
+      var normHeading = normalize(chunk.heading);
+      var normText = normalize(chunk.text);
+      var normPage = normalize(chunk.pageTitle);
+      var score = 0;
+      terms.forEach(function (term) {
+        if (normHeading.indexOf(term) !== -1) score += 10;
+        if (normPage.indexOf(term) !== -1) score += 3;
+        var count = normText.split(term).length - 1;
+        score += count * 2;
+      });
+      return { chunk: chunk, score: score, normText: normText };
+    }).filter(function (r) { return r.score > 0; })
+      .sort(function (a, b) { return b.score - a.score; })
+      .slice(0, 30);
+
+    if (!scored.length) { renderEmpty(query); return; }
+
+    var html = '<p class="result-count">' + scored.length + ' résultat' + (scored.length > 1 ? 's' : '') + '</p>';
+    html += scored.map(function (r) {
+      var c = r.chunk;
+      var snippet = snippetAround(c.text, r.normText, normQuery);
+      return '<a class="result-card" href="' + c.url + '">' +
+        '<div class="result-page">' + escapeHtml(c.pageTitle) + '</div>' +
+        '<div class="result-heading">' + highlight(c.heading, query) + '</div>' +
+        '<div class="result-snippet">' + highlight(snippet, query) + '</div>' +
+        '</a>';
+    }).join('');
+
+    resultsEl.innerHTML = html;
+  }
+
+  bindChips();
+
+  fetch('search-index.json')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      index = data;
+      metaEl.textContent = 'Recherche dans ' + data.length + ' sections du guide.';
+      var params = new URLSearchParams(location.search);
+      var q = params.get('q');
+      if (q) {
+        input.value = q;
+        search(q);
+      }
+    })
+    .catch(function () {
+      metaEl.textContent = "Impossible de charger l'index de recherche.";
+    });
+
+  var debounceTimer;
+  input.addEventListener('input', function () {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(function () { search(input.value); }, 120);
+  });
+})();
+</script>
+
+</body>
+</html>

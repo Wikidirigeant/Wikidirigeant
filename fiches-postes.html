@@ -364,6 +364,7 @@
       <li><a href="adoc.html">ADOC</a></li>
       <li><a href="pratiques.html">Autres pratiques</a></li>
       <li><a href="pensez-y.html">Pensez-y !</a></li>
+      <li><a href="recherche.html">🔎 Recherche</a></li>
     </ul>
     <a href="generalites.html" class="nav-partner" title="Comité du Val-de-Marne de Tennis">
       <img src="images/logo-comite-val-de-marne.png" alt="Comité du Val-de-Marne de Tennis">
@@ -832,6 +833,12 @@
     btn.classList.add('active');
     // Scroll to just below nav
     document.querySelector('.tabs').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  window.fichesHashOpened = true;
+  if (location.hash.indexOf('#fiche-') === 0) {
+    var id = location.hash.replace('#fiche-', '');
+    var btn = document.querySelector('.tab-btn[onclick*="\'' + id + '\'"]');
+    if (btn) showTab(id, btn);
   }
 </script>
 
