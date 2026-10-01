@@ -177,6 +177,53 @@ body {
   padding: 0 28px;
 }
 
+/* ── PAGE BODY + MINI-SOMMAIRE ── */
+.page-body {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.page-body .container { margin: 0; }
+
+.toc-side {
+  width: 200px;
+  flex-shrink: 0;
+  padding: 44px 0;
+}
+.toc-side-inner {
+  position: sticky;
+  top: 74px;
+}
+.toc-side h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  border: none;
+  padding: 0;
+}
+.toc-side nav { display: flex; flex-direction: column; }
+.toc-side nav a {
+  display: block;
+  padding: 6px 0 6px 12px;
+  border-left: 2px solid var(--rule);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  transition: color 0.15s, border-color 0.15s;
+}
+.toc-side nav a:hover { color: var(--navy); border-left-color: var(--clay-light); }
+.toc-side nav a.active { color: var(--clay); border-left-color: var(--clay); font-weight: 600; }
+
+@media (max-width: 1150px) {
+  .toc-side { display: none; }
+}
+
 section {
   padding: 64px 0 48px;
   border-bottom: 1px solid var(--rule);

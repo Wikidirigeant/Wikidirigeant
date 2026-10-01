@@ -43,6 +43,8 @@
   </div>
 </div>
 
+<div class="page-body">
+<aside class="toc-side"><div class="toc-side-inner"><h4>Sur cette page</h4><nav id="toc-nav"></nav></div></aside>
 <div class="container">
 
 <section>
@@ -243,11 +245,38 @@
 </section>
 
 </div>
+</div>
 
 <footer>
   <p><strong>Guide du dirigeant de club affilié FFT</strong> &nbsp;·&nbsp; Tennis · Padel · Beach Tennis · Pickleball &nbsp;·&nbsp; Saison 2026–2027</p>
   <p style="margin-top:8px; font-size:0.75rem;">Document à usage pédagogique — <a href="index.html">← Retour à l'accueil</a></p>
 </footer>
 
+
+<script>
+(function(){
+  var nav = document.getElementById('toc-nav');
+  if (!nav) return;
+  var headings = document.querySelectorAll('.container section h2[id]');
+  if (!headings.length) { nav.closest('.toc-side').style.display = 'none'; return; }
+  var links = [];
+  headings.forEach(function(h){
+    var a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    nav.appendChild(a);
+    links.push({ id: h.id, el: a });
+  });
+  function updateActive() {
+    var current = null;
+    headings.forEach(function(h){
+      if (h.getBoundingClientRect().top <= 140) current = h.id;
+    });
+    links.forEach(function(l){ l.el.classList.toggle('active', l.id === current); });
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+})();
+</script>
 </body>
 </html>

@@ -515,6 +515,8 @@
   </div>
 </div>
 
+<div class="page-body">
+<aside class="toc-side"><div class="toc-side-inner"><h4>Sur cette page</h4><nav id="toc-nav"></nav></div></aside>
 <div class="container">
 
   <div class="action-bar" style="margin-top:24px;">
@@ -879,11 +881,40 @@
   </div><!-- /form-section -->
 
 </div><!-- /container -->
+</div>
 
 <footer>
   <p><strong>Charte d'utilisation des photographies &amp; vidéos</strong> &nbsp;·&nbsp; Modèle club affilié FFT &nbsp;·&nbsp; Saison 2026–2027</p>
   <p style="margin-top:8px; font-size:0.75rem;">Document à adapter à votre contexte — à faire valider par votre bureau avant diffusion — <a href="index.html">← Retour à l'accueil</a></p>
 </footer>
 
+
+<script>
+(function(){
+  var nav = document.getElementById('toc-nav');
+  if (!nav) return;
+  var items = document.querySelectorAll('.article[id]');
+  if (!items.length) { nav.closest('.toc-side').style.display = 'none'; return; }
+  var links = [];
+  items.forEach(function(item){
+    var titleEl = item.querySelector('.article-title');
+    if (!titleEl) return;
+    var a = document.createElement('a');
+    a.href = '#' + item.id;
+    a.textContent = titleEl.textContent;
+    nav.appendChild(a);
+    links.push({ id: item.id, el: a });
+  });
+  function updateActive() {
+    var current = null;
+    items.forEach(function(item){
+      if (item.getBoundingClientRect().top <= 140) current = item.id;
+    });
+    links.forEach(function(l){ l.el.classList.toggle('active', l.id === current); });
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+})();
+</script>
 </body>
 </html>
