@@ -25,11 +25,17 @@ NAV_LABELS = {
     "rh.html": "RH",
     "finances.html": "Finances & Sponsoring",
     "adoc.html": "ADOC",
-    "pratiques.html": "Autres pratiques",
+    "autres-pratiques.html": "Autres pratiques",
     "pensez-y.html": "Pensez-y !",
     "calendrier-gouvernance.html": "Calendrier de gouvernance",
     "charte-photos.html": "Charte photos",
     "fiches-postes.html": "Fiches de postes",
+    "equipementier.html": "Équipementier",
+    "partenariat.html": "Partenariat",
+    "arbitrage.html": "Arbitrage",
+    "tournois-officiels.html": "Tournois officiels",
+    "trophee-club.html": "Trophée club",
+    "aides-au-club.html": "Aides au club",
 }
 
 TAG_RE = re.compile(r"<[^>]+>")

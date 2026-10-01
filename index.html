@@ -91,61 +91,11 @@
     }
     .hero-meta strong { color: rgba(255,255,255,0.7); }
 
-    /* MODULE GRID */
-    .module-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin: 24px 0;
-    }
-    .module-link {
-      background: white;
-      border-radius: 8px;
-      padding: 20px 18px;
-      text-decoration: none;
-      color: var(--navy);
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-      border-top: 3px solid var(--clay);
-      transition: box-shadow 0.18s, transform 0.18s;
-      position: relative;
-      overflow: hidden;
-    }
-    .module-link.c-grass { border-top-color: var(--grass); }
-    .module-link.c-navy  { border-top-color: var(--navy); }
-    .module-link.c-gold  { border-top-color: #c89400; }
-    .module-link.c-teal  { border-top-color: #0e7a7a; }
-    .module-link:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.13); transform: translateY(-3px); }
-    .module-link .ml-icon { font-size: 1.8rem; margin-bottom: 9px; }
-    .module-link h3 {
-      font-family: 'Lora', serif;
-      font-size: 1.02rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      border: none;
-      padding: 0;
-      color: var(--navy);
-    }
-    .module-link p { font-size: 0.83rem; color: var(--muted); line-height: 1.5; flex: 1; margin: 0; }
-    .module-link .ml-arr {
-      margin-top: 12px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--clay);
-      letter-spacing: 0.04em;
-    }
-    .module-link.c-grass .ml-arr { color: var(--grass); }
-
     @media (max-width: 800px) {
       .hero-home { grid-template-columns: 1fr; }
       .hero-sidebar { display: none; }
       .hero-content { padding: 38px 22px; }
       .hero-meta { padding: 13px 22px; }
-      .module-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 480px) {
-      .module-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -164,7 +114,7 @@
       <li><a href="rh.html">RH</a></li>
       <li><a href="finances.html">Finances</a></li>
       <li><a href="adoc.html">ADOC</a></li>
-      <li><a href="pratiques.html">Autres pratiques</a></li>
+      <li><a href="pratiques.html">Autres rubriques</a></li>
       <li><a href="pensez-y.html">Pensez-y !</a></li>
       <li><a href="recherche.html">🔎 Recherche</a></li>
     </ul>
@@ -269,8 +219,8 @@
     </a>
     <a href="pratiques.html" class="module-link c-grass">
       <div class="ml-icon">🏓</div>
-      <h3>Autres pratiques</h3>
-      <p>Tennis scolaire, Galaxie Tennis, padel, pickleball, beach tennis — développer l'offre de votre club.</p>
+      <h3>Autres rubriques</h3>
+      <p>Équipementier, partenariats, arbitrage, tournois officiels, trophée club, aides au club, autres pratiques.</p>
       <div class="ml-arr">Consulter →</div>
     </a>
     <a href="pensez-y.html" class="module-link c-teal">

@@ -341,10 +341,71 @@ a:hover { color: var(--grass); }
 }
 .card-grass { border-top-color: var(--grass); }
 .card-navy { border-top-color: var(--navy); }
+.card-gold { border-top-color: #c89400; }
 .card-icon { font-size: 1.5rem; margin-bottom: 9px; display: block; }
 .card h4 { font-family: 'Lora', serif; font-size: 0.96rem; font-weight: 600; margin-bottom: 7px; }
 .card p { font-size: 0.85rem; color: var(--muted); line-height: 1.55; margin: 0; }
 .card a { font-size: 0.82rem; display: inline-block; margin-top: 6px; }
+
+/* ── MODULE GRID (cartes de navigation vers des pages dédiées) ── */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 24px 0;
+}
+.module-link {
+  background: white;
+  border-radius: 8px;
+  padding: 20px 18px;
+  text-decoration: none;
+  color: var(--navy);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  border-top: 3px solid var(--clay);
+  transition: box-shadow 0.18s, transform 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+.module-link.c-grass { border-top-color: var(--grass); }
+.module-link.c-navy  { border-top-color: var(--navy); }
+.module-link.c-gold  { border-top-color: #c89400; }
+.module-link.c-teal  { border-top-color: #0e7a7a; }
+.module-link.c-red    { border-top-color: #b03a1a; }
+.module-link.c-purple { border-top-color: #6a3fa0; }
+.module-link:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.13); transform: translateY(-3px); }
+.module-link .ml-icon { font-size: 1.8rem; margin-bottom: 9px; }
+.module-link h3 {
+  font-family: 'Lora', serif;
+  font-size: 1.02rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  border: none;
+  padding: 0;
+  color: var(--navy);
+}
+.module-link p { font-size: 0.83rem; color: var(--muted); line-height: 1.5; flex: 1; margin: 0; }
+.module-link .ml-arr {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--clay);
+  letter-spacing: 0.04em;
+}
+.module-link.c-grass .ml-arr { color: var(--grass); }
+.module-link.c-navy .ml-arr { color: var(--navy); }
+.module-link.c-gold .ml-arr { color: #c89400; }
+.module-link.c-teal .ml-arr { color: #0e7a7a; }
+.module-link.c-red .ml-arr { color: #b03a1a; }
+.module-link.c-purple .ml-arr { color: #6a3fa0; }
+
+@media (max-width: 800px) {
+  .module-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .module-grid { grid-template-columns: 1fr; }
+}
 
 /* ── DISC TAGS ── */
 .disc-tag {

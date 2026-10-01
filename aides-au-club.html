@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aides au club – Guide du Dirigeant FFT</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <div class="nav-scroll">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-ball">🎾</div>
+      <div class="nav-logo-text">Guide<br>Dirigeant</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="generalites.html">Généralités</a></li>
+      <li><a href="rh.html">RH</a></li>
+      <li><a href="finances.html">Finances</a></li>
+      <li><a href="adoc.html">ADOC</a></li>
+      <li><a href="pratiques.html">Autres rubriques</a></li>
+      <li><a href="pensez-y.html">Pensez-y !</a></li>
+      <li><a href="recherche.html">🔎 Recherche</a></li>
+    </ul>
+    </div>
+    <a href="generalites.html" class="nav-partner" title="Comité du Val-de-Marne de Tennis">
+      <img src="images/logo-comite-val-de-marne.png" alt="Comité du Val-de-Marne de Tennis">
+    </a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="badge-row">
+      <span class="badge">Outil pratique</span>
+      <span class="badge badge-outline">Autres rubriques</span>
+    </div>
+    <h1>Aides <span>au club</span></h1>
+    <p class="sub">Au-delà des subventions, la FFT met à disposition des outils et des accompagnements concrets pour votre communication et vos espaces de vie.</p>
+  </div>
+</div>
+
+<div class="page-body">
+<aside class="toc-side"><div class="toc-side-inner"><h4>Sur cette page</h4><nav id="toc-nav"></nav></div></aside>
+<div class="container">
+
+<p style="margin-bottom:24px;"><a href="pratiques.html">← Retour aux autres rubriques</a></p>
+
+<div class="urgent-band">
+  <div class="urgent-icon">💶</div>
+  <div class="urgent-body">
+    <h4>Vous cherchez une aide financière ?</h4>
+    <p style="margin:0;">ANS, aide à l'emploi, aide à l'équipement, transition écologique, Pass Sport… la liste complète des aides financières FFT se trouve sur la page Finances du guide.</p>
+  </div>
+</div>
+<p><a href="finances.html#aides-financieres-disponibles">→ Voir les aides financières disponibles</a></p>
+
+<section>
+  <div class="sec-header">
+    <div class="sec-num">01</div>
+    <div class="sec-title">
+      <h2 id="outils-de-communication">Outils de communication</h2>
+      <p>Des supports prêts à l'emploi pour communiquer sans y passer vos soirées.</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card card-navy">
+      <span class="card-icon">🎨</span>
+      <h4>Mon Kit Com</h4>
+      <p>Plateforme fédérale pour personnaliser des affiches et visuels (impression et réseaux sociaux) sur différents thèmes : compétition, vie de club, activités. Un kit physique (kakémono, banderoles, goodies) est aussi commandable via VistaPrint.</p>
+      <a href="https://guidedudirigeant.fft.fr/mon-kit-com/" target="_blank">→ Mon Kit Com – Guide FFT</a>
+    </div>
+    <div class="card">
+      <span class="card-icon">🖼️</span>
+      <h4>FFT Média</h4>
+      <p>La banque d'images et de visuels officiels de la fédération, à utiliser librement pour votre communication de club.</p>
+      <a href="https://guidedudirigeant.fft.fr/fft-media-votre-banque-dimages/" target="_blank">→ FFT Média</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-header">
+    <div class="sec-num">02</div>
+    <div class="sec-title">
+      <h2 id="club-house-et-espaces-de-vie">Club house &amp; espaces de vie</h2>
+      <p>Un accompagnement complet, pas seulement une subvention.</p>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card card-grass">
+      <span class="card-icon">🏡</span>
+      <h4>Relook ton Club House</h4>
+      <p>Appel à projets national : un club sélectionné par ligue métropolitaine. La FFT finance jusqu'à 80 % du projet (22 500 € maximum) et accompagne le club avec un architecte ou décorateur référencé. Couvre mobilier, décoration et signalétique.</p>
+      <a href="https://guidedudirigeant.fft.fr/relook-ton-club-house/" target="_blank">→ Relook ton Club House</a>
+    </div>
+    <div class="card">
+      <span class="card-icon">📏</span>
+      <h4>Conditions d'éligibilité</h4>
+      <p>Le club house doit faire au moins 50 m². Ce dispositif n'est pas cumulable avec l'aide à l'aménagement des espaces de vie (AADEV, 3 000 € ou plus) si elle a déjà été perçue en 2024 ou 2025.</p>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<footer>
+  <p><strong>Guide du dirigeant de club affilié FFT</strong> &nbsp;·&nbsp; Tennis · Padel · Beach Tennis · Pickleball &nbsp;·&nbsp; Saison 2026–2027</p>
+  <p style="margin-top:8px; font-size:0.75rem;"><a href="index.html">← Retour à l'accueil</a></p>
+</footer>
+
+<script>
+(function(){
+  var nav = document.getElementById('toc-nav');
+  if (!nav) return;
+  var headings = document.querySelectorAll('.container section h2[id]');
+  if (!headings.length) { nav.closest('.toc-side').style.display = 'none'; return; }
+  var links = [];
+  headings.forEach(function(h){
+    var a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    nav.appendChild(a);
+    links.push({ id: h.id, el: a });
+  });
+  function updateActive() {
+    var current = null;
+    headings.forEach(function(h){
+      if (h.getBoundingClientRect().top <= 140) current = h.id;
+    });
+    links.forEach(function(l){ l.el.classList.toggle('active', l.id === current); });
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+})();
+</script>
+
+</body>
+</html>
