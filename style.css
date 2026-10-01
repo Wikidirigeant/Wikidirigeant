@@ -864,5 +864,4 @@ footer a:hover { color: var(--clay); }
   .pyr-row.l4, .pyr-row.l5 { width: 100%; max-width: 100%; }
   .sec-header { grid-template-columns: 52px 1fr; gap: 12px; }
   .sec-num { font-size: 3rem; }
-  .nav-links { display: none; }
 }
