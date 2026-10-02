@@ -844,6 +844,11 @@ tr:last-child td { border-bottom: none; }
   padding: 3px 10px;
   border-radius: 3px;
 }
+a.urgent-tag {
+  text-decoration: none;
+  transition: background 0.15s;
+}
+a.urgent-tag:hover { background: var(--navy); }
 
 /* ── FOOTER ── */
 footer {
