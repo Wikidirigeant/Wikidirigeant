@@ -1,0 +1,91 @@
+MISE À JOUR DE LA SAISON — WIKIDIRIGEANT
+==========================================
+Généré le 2026-10-02. À relancer / mettre à jour à chaque changement de saison.
+
+
+1) LE TEXTE À REMPLACER PARTOUT (simple rechercher/remplacer)
+----------------------------------------------------------
+Chaîne exacte à chercher :   2026–2027
+                              (attention : tiret CADRATIN "–", pas un tiret simple "-")
+Remplacer par :               2027–2028  (exemple pour la saison suivante)
+
+23 occurrences, dans 20 fichiers :
+
+adoc.html:259
+aides-au-club.html:114
+arbitrage.html:163
+autres-pratiques.html:255
+calendrier-gouvernance.html:673
+charte-photos.html:549
+charte-photos.html:887
+equipementier.html:153
+fiches-postes.html:823
+finances.html:591
+generalites.html:251
+index.html:134
+index.html:149
+index.html:284
+partenariat.html:167
+pensez-y.html:276
+pratiques.html:106
+recherche.html:177
+rh.html:342
+tournois-officiels.html:136
+trophee-club.html:121
+
+Si tu as accès à un terminal, la commande suivante fait le remplacement
+dans tout le dossier d'un coup (à lancer depuis le dossier du site) :
+
+  for f in *.html; do sed -i 's/2026–2027/2027–2028/g' "$f"; done
+
+Sinon, demande-moi simplement : "passe le site en saison 2027-2028" et
+je m'en charge (y compris la régénération de l'index de recherche).
+
+
+2) DATES ET ANNÉES À VÉRIFIER MANUELLEMENT (pas un simple remplacement)
+------------------------------------------------------------------------
+Ces mentions contiennent une année mais ne suivent PAS le format
+"2026–2027" — ce sont des dates ou faits spécifiques qu'il faut relire
+et mettre à jour à la main (ou me redonner les nouvelles infos) :
+
+adoc.html:92
+  "Les licences 2026 sont saisissables depuis mai 2025."
+  -> à faire glisser d'un an (licences 2027 / depuis mai 2026) quand
+     la saison change.
+
+aides-au-club.html:105
+  "...si elle a déjà été perçue en 2024 ou 2025."
+  -> condition de non-cumul AADEV, probablement une fenêtre glissante
+     de 2 ans : à vérifier auprès de la FFT / du comité au moment venu.
+
+finances.html (rubrique "Aides financières disponibles")
+  Plusieurs dates butoir issues du PPT "Aides financières 2026-2027" :
+  - ligne 436 : "versement en juin 2026" (Aides aux clubs, Comité 94)
+  - ligne 445 : "Date butoir : 16/09/2026" (Objectif performance)
+  - ligne 451 : "Date butoir : 16/09/2026" (Sport, citoyenneté, insertion)
+  - ligne 457 : "Date butoir : 16/09/2026" (Parasports et sport santé)
+  - ligne 463 : "Date butoir : 31/03/2027" (Stages sportifs)
+  - ligne 479 : "valable jusqu'au 31/08/2027" (Labaz)
+  -> Ces dates viennent d'un document annuel du comité / de la région.
+     À chaque nouvelle saison, redemande le PPT "Aides financières"
+     à jour et je remettrai cette rubrique en cohérence.
+
+generalites.html:106
+  "La FFT en chiffres (2024–2025)" (encadré statistiques)
+  -> Ne change que si la FFT publie un nouveau rapport chiffré.
+     Pas automatique, à surveiller.
+
+
+3) ANNÉES QU'IL NE FAUT PAS TOUCHER (faits historiques figés)
+-----------------------------------------------------------------
+autres-pratiques.html:96 et :100
+  "Plus de 1 000 clubs ont adopté la nouvelle version depuis 2024"
+  "Refondu en 2024 sous le nom Optimisation Galaxie Tennis"
+  -> Fait historique (date de la refonte), ne bouge pas avec la saison.
+
+
+NOTE
+----
+Après tout changement de ces années, relance la génération de l'index
+de recherche :  python tools/build-search-index.py
+(sinon la recherche du site continuera d'afficher l'ancien texte).
