@@ -36,6 +36,7 @@ NAV_LABELS = {
     "tournois-officiels.html": "Tournois officiels",
     "trophee-club.html": "Trophée club",
     "aides-au-club.html": "Aides au club",
+    "contacts-utiles.html": "Contacts utiles",
 }
 
 TAG_RE = re.compile(r"<[^>]+>")
