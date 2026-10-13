@@ -33,7 +33,7 @@ body {
 }
 .nav-inner {
   display: flex;
-  max-width: 980px;
+  max-width: 1260px;
   margin: 0 auto;
   align-items: center;
   position: relative;
@@ -136,7 +136,7 @@ body {
   border-bottom: 2px solid var(--clay);
 }
 
-@media (max-width: 740px) {
+@media (max-width: 1260px) {
   .nav-burger { display: flex; }
   .nav-logo { border-right: none; padding-left: 4px; }
   .nav-scroll {
